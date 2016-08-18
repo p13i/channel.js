@@ -61,7 +61,7 @@ With `channel.js`, clients receive `event`s from the server and send `command`s 
         });
         ```
     
-    * '.emit(command_name, data)':
+    * `.emit(command_name, data)`:
     
         * `command_name` (type: `string`): The task being commanded of the server (e.g. 'user-join' or 'message-send')
     
