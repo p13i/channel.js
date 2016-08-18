@@ -9,4 +9,4 @@
 * `pip install -r requirements.txt`
 * `python manage.py runserver`
 
-Navigate to `localhost:8000/chat/myRoom/` and have fun!
+Navigate to `localhost:8000/chat/myRoom/` and have fun chatting!
