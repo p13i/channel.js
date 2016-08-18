@@ -1,0 +1,11 @@
+body {
+    padding: 2em;
+}
+
+.float-right {
+    float: right;
+}
+
+.italics {
+    font-style: italic;
+}

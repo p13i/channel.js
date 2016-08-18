@@ -1,164 +1,198 @@
 #### API tutorial
 
-In this tutorial let's design a (very) simply financial portfolio app that displays stock prices to users.
+In this tutorial let's design a (very) simple chat app that demonstrates basic usage of this library. The **complete** example (with setup instructions) can be [found here](../examples/chatter/).
 
 ##### Front-end
 
 After instantiating a `new Channel(wsPath)` to the specified `wsPath` URL, you may register events through the `.on(event, func)` function and send messages with the `.emit(command, data)`.
 
-For example, consider a stock ticker application that updates a stock price when data is received from the server:
+Consider a simple chat application that allows users to send and recieve messages in real time. The submission for looks like:
 ```html
-<!-- index.html -->
+<input type="text" id="chat-username"/>
+<textarea id="chat-form" rows="1"></textarea>
+<button id="chat-submit" type="submit">Submit</button>
+```
+(Here the `textarea` is where users type in their messages.)
 
-<h4>Stock ticker for MSFT</h4>
-<span id="price">56.57</span>
+We instantiate a connection to the web socket listening at `/chat/myRoom/stream/`.
+```js
+var channel = new Channel('/chat/myRoom/stream/');
 ```
 
-We instantiate a connection to the web socket listening at `/stockets/msft/stream/`.
+Next, we listen for new message `event`s from our server (`$` is [jQuery](https://jquery.com/)).
 ```js
-var channel = new Channel('/stocks/msft/stream/');
-```
-
-Next, we listen for price change `event`s from our server (`$` is [jQuery](https://jquery.com/)).
-```js
-var updatePrice = function (data) {
-    var newPrice = data['stockPrice'];
-    $("#price").html(newPrice);
-};
-channel.on('price_change', updatePrice);
+channel.on('message-new', function (data) {
+    $('#chat-messages').prepend(
+        data['username'] + ' | ' + data['msg']
+    );
+});
 ```
 
 It's that simple!
 
-Now, say we want to acknowledge the fact that we have received and updated the price. Let's just change `updatePrice` to `emit` a message back:
+Now, say we want to send messages when the user hits `Submit`:
 ```js
-var updatePrice = function (data) {
-    var newPrice = data['stockPrice'];
-    $("#price").html(newPrice);
-
-    var msg = {
-        'received_at': new Date().toString(),
-    }
-    channel.emit('acknowledge_receipt', msg);
-}
+var submit_button = $('#chat-submit');
+submit_button.on('click', function () {
+    var username = $('#chat-username');
+    var message = $('#chat-form');
+    var data = {
+        'msg': message.val(),
+        'username': username.val()
+    };
+    username.attr('disabled', true);
+    message.val('');
+    channel.emit('message-send', data);
+});
 ```
 
-It's that simple! `channel.js` takes take of parsing JSON, modifying dictionaries, serializing, and more.
+It's that simple! `channel.js` takes take of parsing JSON, modifying dictionaries, serializing, and provides this simple API. The full Javascript source for thie example can be found here inside the working project
 
 ##### Back-end
 
+###### Configuration
+
 Implementing the backend for `channel.js`-based apps is a little more involved but it is not too difficult! Let's create our Django project:
 
-* `pip install channels`
-* `django-admin startproject finance`
-* `django-admin startapp stocks`
+* `django-admin startproject chatter`
+* `cd chatter`
+* `django-admin startapp chat`
 
-First, we have to configure Django Channels in `finance/finance/settings.py`:
+Create a `requirements.txt` in the `chatter` project directory with the following:
+```txt
+# chatter/requirements.txt
+asgi-redis==0.14.0
+asgiref==0.14.0
+autobahn==0.15.0
+channels==0.17.1
+daphne==0.14.3
+dj-database-url==0.4.1
+Django==1.9.8
+msgpack-python==0.4.7
+psycopg2==2.6.2
+redis==2.10.5
+six==1.10.0
+Twisted==16.2.0
+txaio==2.5.1
+zope.interface==4.2.0
+```
+
+First, we have to configure Django Channels in `chatter/chatter/settings.py`:
 ```python
+# chatter/chatter/settings.py
 CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "asgi_redis.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [
-                os.environ.get('REDIS_URL'),
-            ],
-        },
-        "ROUTING": "finance.routing.channel_routing",
+    'default': {
+        'BACKEND': 'asgiref.inmemory.ChannelLayer',
+        'ROUTING': 'chatter.routing.channel_routing',
     },
 }
 ```
-In this tutorial, I've added a URL to a [Redis](http://redis.io/) database (used in Django Channels' backend) as an environment variable.
 
-Don't forget to add`channels` and our `stocks` app to `INSTALLED_APPS` in `settings.py`:
+Don't forget to add`channels` and our `chatter` app to `INSTALLED_APPS` in `settings.py`:
 ```python
+# chatter/chatter/settings.py
+# ...
 INSTALLED_APPS = [
     # ...
     'channels',
-    'metronome.app.MetronomeConfig',
+    
+    'chatter',
 ]
+# ...
 ```
 
-Now, to setup ASGI, create `asgi.py` in `finance/finance` and populate it with:
+Now, to setup ASGI, create `asgi.py` in `chatter/chatter` and populate it with:
 ```python
+# chatter/chatter/asgi.py
 import os
 
 from channels.asgi import get_channel_layer
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "finance.settings")
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chatter.settings')
 channel_layer = get_channel_layer()
 ```
 
-Finally, we have to wire up some initial routing in a new `routing.py` in `finance/finance`:
+###### Routing
+
+Finally, we have to wire up some initial routing in a new `routing.py` in `chatter/chatter`:
 
 ```python
+# chatter/chatter/routing.py
 from channels import include
 
 channel_routing = [
-    include('stocks.routing.websocket_routing', path=r'^/stocks/'),
-    include('stocks.routing.command_routing'),
+    include('chat.routing.websocket_routing', path=r'^/chat/'),
+    include('chat.routing.command_routing'),
 ]
 ```
 
-Now, in our `stocks` app, create another `routing.py` file that will handle our websocket events:
+Now, in our `chat` app, create another `routing.py` file that will handle our websocket events:
 ```python
+# chatter/chat/routing.py
 from channels import route
-from .consumers import ws_connect, ws_receive, ws_disconnect, receipt
+from .consumers import ws_connect, ws_receive, ws_disconnect, chat_send
 
 
 websocket_routing = [
     route("websocket.connect", ws_connect, path=r'^(?P<slug>[^/]+)/stream/$'),
-    symbol("websocket.receive", ws_receive, path=r'^(?P<symbol>[^/]+)/stream/$'),
-    route("websocket.disconnect", ws_disconnect, path=r'^(?P<symbol>[^/]+)/stream/$'),
+    route("websocket.receive", ws_receive, path=r'^(?P<slug>[^/]+)/stream/$'),
+    route("websocket.disconnect", ws_disconnect, path=r'^(?P<slug>[^/]+)/stream/$'),
 ]
 
 command_routing = [
-    route("stocks.receive", receipt, command=r'^acknowledge_receipt'),
+    route('chat.receive', chat_send, command=r'^message-send'),
 ]
 ```
 
-To consume these websocket events, add the following to a new `consumers.py`:
+###### Models
+
+We'll need to create a model that represents a single chat room as well. In this model, let's also add some code that will be useful for our socket-based messaging:
 ```python
-from channels import Group, Channel
+# chatter/chat/models.py
+import json
+
+from channels import Group
+from django.db import models
 
 
-def ws_connect(message, symbol):
-    """
-    Handles connecting to the websocket
-    :param message: The socket message
-    :param symbol: The stock name
-    """
-    # Add the new user to a group that can be sent messages
-    Group(symbol).add(message.reply_channel)
+class Room(models.Model):
+    slug = models.CharField(max_length=32, unique=True)
+    member_count = models.PositiveIntegerField(default=0)
 
+    def emit(self, event: str, data: dict):
+        data['event'] = event
+        self.group.send({
+            'text': json.dumps(data)
+        })
 
-def ws_receive(message, symbol):
-    """
-    Handles receiving websocket messages
-    """
-    content = message.content
+    @property
+    def group(self):
+        return Group(self.slug)
 
-    # Construct a payload that can be sent to custom consumers
-    payload = json.loads(content['text'])
-    payload['symbol'] = symbol
-    payload['reply_channel'] = content['reply_channel']
-
-    # Unpack the message and send it to stocks.routing.command_routing list
-    Channel("stocks.receive").send(payload)
-
-
-def ws_disconnect(message, symbol):
-    """
-    Handles disconnecting from a room
-    """
-    # You can log socket messages here
-    # Forget about the user that disconnected
-    Group(symbol).discard(message.reply_channel)
-
-
-def receipt(payload):
-    received_at = payload['received_at']
-    stock_symbol = payload['symbol']
-    # Do something with `received_at` and `symbol`
 ```
 
-It's that simple! You've got a realtime app with Django! Now, I'd recommend you walk through the code of Django Channels creator's [examples](https://github.com/andrewgodwin/channels-examples) and convert his front-end code to work with `channel.js`.
+
+###### Templates and Views
+
+Let's also create templates (omitted in this tutorial but [found here](../examples/chatter/chat/templates/)), and a view:
+```python
+# chatter/chat/views.py
+from django.shortcuts import render
+from .models import Room
+
+
+def chatroom(request, slug):
+    room, created = Room.objects.get_or_create(slug=slug)
+    return render(request=request,
+                  template_name='chat/room.html',
+                  context={'room': room})
+```
+
+
+###### Consumers
+
+To handle these the websocket events we registered in the Javascript, add the following to a new `consumers.py` within the `chat` app (see [this file](../examples/chatter/chat/consumers.py) for the full implementation).
+
+It's that simple! To get a fully working example, with no hiccups, follow the instructions in [the README found here](../examples/chatter/README.md).
+
+You've got a realtime app with Django! Now, I recommend you walk through the code of Django Channels creator's [examples](https://github.com/andrewgodwin/channels-examples) and convert his front-end code to work with `channel.js`.

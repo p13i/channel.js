@@ -31,8 +31,11 @@ class ChannelError extends Error {
 
 /**
  * Provides simple Javascript API for sending and receiving messages from web servers running Django Channel
+ *
+ * @author Pramod Kotipalli
+ * @version 0.1.0
  */
-export class Channel implements ChannelInterface {
+class Channel implements ChannelInterface {
     /** The actual WebSocket connecting with the Django Channels server */
     public _socket:WebSocket;
 
@@ -153,35 +156,15 @@ export class Channel implements ChannelInterface {
 /**
  * Interface for WebSocket (ReconnectingWebSocket)
  */
-interface WebSocket {
+interface ReconnectingSocket extends WebSocket {
     /**
      * Constructor for WebSocket
      * @param wsPath The path of the websocket on the internet
      */
     new(wsPath:string);
-
-    /**
-     * Function called when socket is opened.
-     */
-    onopen():void;
-    /**
-     * Called when socket is closed.
-     */
-    onclose():void;
-    /**
-     * Called when the socket receives a message.
-     * @param data The JSON data string received from the server
-     */
-    onmessage(data:string):void;
-
-    /**
-     * Sends data to the server through the web socket
-     * @param data The data JSON string to be send to the server
-     */
-    send(data:string):void;
 }
 
 /**
  * reconnecting-websocket.js is the web socket API used behind the scenes
  */
-declare var ReconnectingWebSocket:WebSocket;
+declare var ReconnectingWebSocket:ReconnectingSocket;

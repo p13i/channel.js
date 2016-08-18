@@ -1,0 +1,13 @@
+asgi-redis==0.14.0
+asgiref==0.14.0
+autobahn==0.15.0
+channels==0.17.1
+daphne==0.14.3
+dj-database-url==0.4.1
+Django==1.9.8
+msgpack-python==0.4.7
+redis==2.10.5
+six==1.10.0
+Twisted==16.2.0
+txaio==2.5.1
+zope.interface==4.2.0
