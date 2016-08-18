@@ -6,7 +6,6 @@ daphne==0.14.3
 dj-database-url==0.4.1
 Django==1.9.8
 msgpack-python==0.4.7
-psycopg2==2.6.2
 redis==2.10.5
 six==1.10.0
 Twisted==16.2.0
