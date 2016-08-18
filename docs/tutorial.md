@@ -1,6 +1,6 @@
 #### API tutorial
 
-In this tutorial let's design a (very) simple chat app that demonstrates basic usage of this library. The **complete** example (with setup instructions) can be [found here]().
+In this tutorial let's design a (very) simple chat app that demonstrates basic usage of this library. The **complete** example (with setup instructions) can be [found here](../examples/chatter/).
 
 ##### Front-end
 
@@ -56,10 +56,11 @@ Implementing the backend for `channel.js`-based apps is a little more involved b
 
 * `django-admin startproject chatter`
 * `cd chatter`
-* `django-admin startapp stocks`
+* `django-admin startapp chat`
 
 Create a `requirements.txt` in the `chatter` project directory with the following:
 ```txt
+# chatter/requirements.txt
 asgi-redis==0.14.0
 asgiref==0.14.0
 autobahn==0.15.0
@@ -76,8 +77,9 @@ txaio==2.5.1
 zope.interface==4.2.0
 ```
 
-First, we have to configure Django Channels in `finance/finance/settings.py`:
+First, we have to configure Django Channels in `chatter/chatter/settings.py`:
 ```python
+# chatter/chatter/settings.py
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'asgiref.inmemory.ChannelLayer',
@@ -88,16 +90,20 @@ CHANNEL_LAYERS = {
 
 Don't forget to add`channels` and our `chatter` app to `INSTALLED_APPS` in `settings.py`:
 ```python
+# chatter/chatter/settings.py
+# ...
 INSTALLED_APPS = [
     # ...
     'channels',
     
     'chatter',
 ]
+# ...
 ```
 
 Now, to setup ASGI, create `asgi.py` in `chatter/chatter` and populate it with:
 ```python
+# chatter/chatter/asgi.py
 import os
 
 from channels.asgi import get_channel_layer
@@ -111,6 +117,7 @@ channel_layer = get_channel_layer()
 Finally, we have to wire up some initial routing in a new `routing.py` in `chatter/chatter`:
 
 ```python
+# chatter/chatter/routing.py
 from channels import include
 
 channel_routing = [
@@ -121,6 +128,7 @@ channel_routing = [
 
 Now, in our `chat` app, create another `routing.py` file that will handle our websocket events:
 ```python
+# chatter/chat/routing.py
 from channels import route
 from .consumers import ws_connect, ws_receive, ws_disconnect, chat_send
 
@@ -140,6 +148,7 @@ command_routing = [
 
 We'll need to create a model that represents a single chat room as well. In this model, let's also add some code that will be useful for our socket-based messaging:
 ```python
+# chatter/chat/models.py
 import json
 
 from channels import Group
@@ -165,8 +174,9 @@ class Room(models.Model):
 
 ###### Templates and Views
 
-Let's also create templates (omitted in this tutorial but found here), and a view:
+Let's also create templates (omitted in this tutorial but [found here](../examples/chatter/chat/templates/)), and a view:
 ```python
+# chatter/chat/views.py
 from django.shortcuts import render
 from .models import Room
 
@@ -181,8 +191,8 @@ def chatroom(request, slug):
 
 ###### Consumers
 
-To handle these the websocket events we registered in the Javascript, add the following to a new `consumers.py` within the `chat` app (see [this file]() for the full implementation).
+To handle these the websocket events we registered in the Javascript, add the following to a new `consumers.py` within the `chat` app (see [this file](../examples/chatter/chat/consumers.py) for the full implementation).
 
-It's that simple! To get a fully working example, with no hiccups, follow the instructions in the README found here.
+It's that simple! To get a fully working example, with no hiccups, follow the instructions in [the README found here](../examples/chatter/README.md).
 
-You've got a realtime app with Django! Now, I'd recommend you walk through the code of Django Channels creator's [examples](https://github.com/andrewgodwin/channels-examples) and convert his front-end code to work with `channel.js`.
+You've got a realtime app with Django! Now, I recommend you walk through the code of Django Channels creator's [examples](https://github.com/andrewgodwin/channels-examples) and convert his front-end code to work with `channel.js`.

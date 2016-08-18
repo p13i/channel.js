@@ -16,7 +16,7 @@ https://raw.githubusercontent.com/k-pramod/channels.js/master/src/js/reconnectin
 https://raw.githubusercontent.com/k-pramod/channels.js/master/src/js/channel.js"></script>
 ```
 
-A full example is available under [examples/chatter](../examples/chatter).
+A full example is available under [examples/chatter](../examples/chatter/).
 
 #### Concepts
 
