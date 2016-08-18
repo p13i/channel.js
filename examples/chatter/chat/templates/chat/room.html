@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <h3>
+                    Welcome to <strong>{{ room.slug }}</strong>
+                    <small>(<span id="member-count">{{ room.member_count }}</span> members)</small>
+                </h3>
+
+                <ul class="list-group" id="chat-messages">
+                </ul>
+            </div>
+
+            <div class="col-md-4">
+                <input type="hidden" value="{{ room.slug }}" id="room-slug">
+                <div class="form-group">
+                    <label for="chat-username">Username</label>
+                    <input type="text" class="form-control" id="chat-username"/>
+                </div>
+                <div class="form-group">
+                    <label for="chat-form">Message</label>
+                    <textarea class="form-control" id="chat-form" rows="1"></textarea>
+                </div>
+                <button id="chat-submit" type="submit" class="btn btn-outline-primary btn-block">Submit</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_scripts %}
+    {% load static from staticfiles %}
+    <script type="text/javascript" src="{% static 'js/chat.js' %}"></script>
+{% endblock %}
