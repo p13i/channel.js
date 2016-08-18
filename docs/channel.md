@@ -11,9 +11,9 @@ NodeJS's [socket.io](http://socket.io/) provides the simplest client-side API fo
 Simply add the following references to your client-side HTML markup:
 ```html
 <script type="text/javascript" src="
-https://raw.githubusercontent.com/k-pramod/channel.js/master/src/js/reconnecting-websockets.js"></script>
+https://raw.githubusercontent.com/k-pramod/channel.js/master/dist/reconnecting-websocket.js"></script>
 <script type="text/javascript" src="
-https://raw.githubusercontent.com/k-pramod/channel.js/master/src/js/channel.js"></script>
+https://raw.githubusercontent.com/k-pramod/channel.js/master/dist/channel-0.1.0.js"></script>
 ```
 
 A full example is available under [examples/chatter](../examples/chatter/).
