@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -18,6 +17,9 @@ var ChannelError = (function (_super) {
 }(Error));
 /**
  * Provides simple Javascript API for sending and receiving messages from web servers running Django Channel
+ *
+ * @author Pramod Kotipalli
+ * @version 0.1.0
  */
 var Channel = (function () {
     /**
@@ -125,4 +127,3 @@ var Channel = (function () {
     ;
     return Channel;
 }());
-exports.Channel = Channel;
