@@ -80,17 +80,11 @@ First, we have to configure Django Channels in `finance/finance/settings.py`:
 ```python
 CHANNEL_LAYERS = {
     'default': {
-        'BACKEND': 'asgi_redis.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [
-                os.environ.get('REDIS_URL'),
-            ],
-        },
+        'BACKEND': 'asgiref.inmemory.ChannelLayer',
         'ROUTING': 'chatter.routing.channel_routing',
     },
 }
 ```
-In this tutorial, I've added a URL to a [Redis](http://redis.io/) database (used in Django Channels' backend) as an environment variable. You can easily get a Redis database for free with [Heroku](https://elements.heroku.com/addons/heroku-redis). 
 
 Don't forget to add`channels` and our `chatter` app to `INSTALLED_APPS` in `settings.py`:
 ```python
