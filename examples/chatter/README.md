@@ -12,4 +12,4 @@
 
 Navigate to `localhost:8000/chat/myRoom/` and have fun chatting!
 
-(When using Python 2.7, you may run into [this error](http://stackoverflow.com/questions/16259729/django-python-manage-py-runserver-gives-runtimeerror-maximum-recursion-depth-e))
+This example works with Python 2.7+. (When using a virtualenv with Python 2.7, you may run into [this error](http://stackoverflow.com/questions/16259729/django-python-manage-py-runserver-gives-runtimeerror-maximum-recursion-depth-e).)

@@ -4,7 +4,7 @@ from channels.message import Message
 from ..models import Room
 
 
-def user_join(message: Message, **kwargs):
+def user_join(message, **kwargs):  # type: (Message, dict)
     """
     Handles a user joining a room
     :param message: The websocket message
@@ -26,7 +26,7 @@ def user_join(message: Message, **kwargs):
     )
 
 
-def user_leave(message: Message, **kwargs):
+def user_leave(message, **kwargs):  # type: (Message, dict)
     """
     Handles when a user leaves the room
     """
@@ -42,7 +42,7 @@ def user_leave(message: Message, **kwargs):
         })
 
 
-def client_send(message: Message, **kwargs):
+def client_send(message, **kwargs):  # type: (Message, dict)
     """
     Handles when the client sends a message
     """

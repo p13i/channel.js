@@ -18,7 +18,7 @@ class ChatServer(JsonWebsocketConsumer):
         """
         return kwargs.pop('slug')
 
-    def connect(self, message: Message, **kwargs):
+    def connect(self, message, **kwargs):  # type: (Message, dict)
         """
         Handles connecting to the websocket
         :param message: The socket message
@@ -26,7 +26,7 @@ class ChatServer(JsonWebsocketConsumer):
         slug = kwargs.pop('slug')
         Group(slug).add(message.reply_channel)
 
-    def receive(self, content: dict, **kwargs):
+    def receive(self, content, **kwargs):  # type: (dict, dict)
         """
         Handles receiving websocket messages
         """
@@ -36,7 +36,7 @@ class ChatServer(JsonWebsocketConsumer):
         # Unpack the message and send it to metronome.routing.command_routing list
         Channel('chat.receive').send(content=content)
 
-    def disconnect(self, message: Message, **kwargs):
+    def disconnect(self, message, **kwargs):  # type: (Message, dict)
         """
         Handles disconnecting from a room
         """
