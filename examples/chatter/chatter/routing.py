@@ -1,4 +1,4 @@
-from channels import include, route_class
+from channels import include
 
 channel_routing = [
     include('chat.routing.chat_routing', path=r'^/chat/'),

@@ -16,11 +16,13 @@ https://raw.githubusercontent.com/k-pramod/channel.js/master/dist/reconnecting-w
 https://raw.githubusercontent.com/k-pramod/channel.js/master/dist/channel-0.1.0.js"></script>
 ```
 
-A full example is available under [examples/chatter](../examples/chatter/).
+#### Fully-worked example
+
+A full example is available under [examples/chatter](../examples/chatter/) along with a [tutorial document](./tutorial.md) that discusses some the example.
 
 #### Concepts
 
-With `channel.js`, clients receive `event`s from the server and send `command`s to the server. When an event is received, `channel.js` calls upon a registered client-side function which takes a data dictionary and performs the needed actions. To send a message, the client will `emit` data to the server through a `command` string. **This project is under active development so this API may change over time.**
+With `channel.js`, clients receive `event`s from the server and send `event`s to the server. When an event is received from the server, `channel.js` calls upon a registered client-side function which performs the needed actions. To send a message, the client will `emit` an event and data to the server through a `event` string. **This project is under active development so this API may change over time.**
 
 #### API
 
@@ -61,9 +63,9 @@ With `channel.js`, clients receive `event`s from the server and send `command`s 
         });
         ```
     
-    * `.emit(command_name, data)`:
+    * `.emit(event_name, data)`:
     
-        * `command_name` (type: `string`): The task being commanded of the server (e.g. 'user-join' or 'message-send')
+        * `event_name` (type: `string`): The task to notify the server of (e.g. 'user-join' or 'message-send')
     
         * `data` (type: dictionary): The data to be sent to the websocket server
         
@@ -86,3 +88,4 @@ With `channel.js`, clients receive `event`s from the server and send `command`s 
         });
         ```
 
+Just like with socket.io, `.on` is used to take client-side actions and `.emit` is used to send messages to the server.
