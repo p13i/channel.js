@@ -92,3 +92,4 @@ ENV/
 /examples/chatter/venv/
 .idea/
 db.sqlite3
+/examples/chatter/venv_py27/
