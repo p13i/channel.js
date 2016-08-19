@@ -1,13 +1,12 @@
-from channels import route
-from .consumers import ws_connect, ws_receive, ws_disconnect, chat_send
+from channels import route, route_class
+from .consumers import ChatServer, events
 
-
-websocket_routing = [
-    route("websocket.connect", ws_connect, path=r'^(?P<slug>[^/]+)/stream/$'),
-    route("websocket.receive", ws_receive, path=r'^(?P<slug>[^/]+)/stream/$'),
-    route("websocket.disconnect", ws_disconnect, path=r'^(?P<slug>[^/]+)/stream/$'),
+chat_routing = [
+    route_class(ChatServer, path=r'^(?P<slug>[^/]+)/stream/$'),
 ]
 
-command_routing = [
-    route('chat.receive', chat_send, command=r'^message-send'),
+event_routing = [
+    route('chat.receive', events.user_join, event=r'^user-join$'),
+    route('chat.receive', events.user_leave, event=r'^user-leave$'),
+    route('chat.receive', events.client_send, event=r'^message-send$'),
 ]
