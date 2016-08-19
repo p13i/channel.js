@@ -12,10 +12,10 @@ interface ChannelInterface {
 
     /**
      * Sends a message to the web socket server
-     * @param command The string name of the task being commanded of the server
+     * @param event The string name of the task being commanded of the server
      * @param data The data dictionary to send to the server
      */
-    emit:(command:string, data:{}) => void;
+    emit:(event:string, data:{}) => void;
 }
 
 /**
@@ -33,7 +33,7 @@ class ChannelError extends Error {
  * Provides simple Javascript API for sending and receiving messages from web servers running Django Channel
  *
  * @author Pramod Kotipalli
- * @version 0.1.0
+ * @version 0.1.1
  */
 class Channel implements ChannelInterface {
     /** The actual WebSocket connecting with the Django Channels server */
@@ -71,7 +71,7 @@ class Channel implements ChannelInterface {
         } else if (pathType == 'absolute') {
             absolutePath = webSocketPath;
         } else {
-            throw new Error('Invalid pathType chosen');
+            throw new ChannelError('Invalid pathType chosen');
         }
         this.connectTo(absolutePath);
     }
@@ -144,11 +144,11 @@ class Channel implements ChannelInterface {
     /**
      * Sends a message to the socket server
      *
-     * @param command The name of the command to send to the socket server
+     * @param event The name of the event to send to the socket server
      * @param data The data to send
      */
-    emit = (command:string, data:{}) => {
-        data['command'] = command;
+    emit = (event:string, data:{}) => {
+        data['event'] = event;
         this._socket.send(JSON.stringify(data));
     };
 }
