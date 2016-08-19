@@ -1,6 +1,11 @@
 #### API tutorial
 
-In this tutorial let's design a (very) simple chat app that demonstrates basic usage of this library. The **complete** example (with setup instructions) can be [found here](../examples/chatter/).
+In this tutorial let's design a (very) simple chat app that demonstrates basic usage of this library.
+
+
+##### Complete example
+
+The **complete** example (with setup instructions) can be [found here](../examples/chatter/). **This 'tutorial' is not meant to produce functional code so you should definitely clone the example and set it up with the instructions in the [README](../examples/chatter/README.md)**
 
 ##### Front-end
 
@@ -58,25 +63,6 @@ Implementing the backend for `channel.js`-based apps is a little more involved b
 * `cd chatter`
 * `django-admin startapp chat`
 
-Create a `requirements.txt` in the `chatter` project directory with the following:
-```txt
-# chatter/requirements.txt
-asgi-redis==0.14.0
-asgiref==0.14.0
-autobahn==0.15.0
-channels==0.17.1
-daphne==0.14.3
-dj-database-url==0.4.1
-Django==1.9.8
-msgpack-python==0.4.7
-psycopg2==2.6.2
-redis==2.10.5
-six==1.10.0
-Twisted==16.2.0
-txaio==2.5.1
-zope.interface==4.2.0
-```
-
 First, we have to configure Django Channels in `chatter/chatter/settings.py`:
 ```python
 # chatter/chatter/settings.py
@@ -121,60 +107,36 @@ Finally, we have to wire up some initial routing in a new `routing.py` in `chatt
 from channels import include
 
 channel_routing = [
-    include('chat.routing.websocket_routing', path=r'^/chat/'),
-    include('chat.routing.command_routing'),
+    include('chat.routing.chat_routing', path=r'^/chat/'),
+    include('chat.routing.event_routing'),
 ]
 ```
 
 Now, in our `chat` app, create another `routing.py` file that will handle our websocket events:
 ```python
 # chatter/chat/routing.py
-from channels import route
-from .consumers import ws_connect, ws_receive, ws_disconnect, chat_send
+from channels import route, route_class
+from .consumers import ChatServer, events
 
-
-websocket_routing = [
-    route("websocket.connect", ws_connect, path=r'^(?P<slug>[^/]+)/stream/$'),
-    route("websocket.receive", ws_receive, path=r'^(?P<slug>[^/]+)/stream/$'),
-    route("websocket.disconnect", ws_disconnect, path=r'^(?P<slug>[^/]+)/stream/$'),
+chat_routing = [
+    route_class(ChatServer, path=r'^(?P<slug>[^/]+)/stream/$'),
 ]
 
-command_routing = [
-    route('chat.receive', chat_send, command=r'^message-send'),
+event_routing = [
+    route('chat.receive', events.user_join, event=r'^user-join$'),
+    route('chat.receive', events.user_leave, event=r'^user-leave$'),
+    route('chat.receive', events.client_send, event=r'^message-send$'),
 ]
 ```
 
 ###### Models
 
-We'll need to create a model that represents a single chat room as well. In this model, let's also add some code that will be useful for our socket-based messaging:
-```python
-# chatter/chat/models.py
-import json
-
-from channels import Group
-from django.db import models
-
-
-class Room(models.Model):
-    slug = models.CharField(max_length=32, unique=True)
-    member_count = models.PositiveIntegerField(default=0)
-
-    def emit(self, event: str, data: dict):
-        data['event'] = event
-        self.group.send({
-            'text': json.dumps(data)
-        })
-
-    @property
-    def group(self):
-        return Group(self.slug)
-
-```
+We'll need to create a model that represents a single chat room as well. In this model, let's also add some code that will be useful for our socket-based messaging. Check out [chatter/chat/models.py](../examples/chatter/chat/models.py) for the full (and commented) implementation. 
 
 
 ###### Templates and Views
 
-Let's also create templates (omitted in this tutorial but [found here](../examples/chatter/chat/templates/)), and a view:
+Let's also create templates (omitted in this tutorial but [found here](../examples/chatter/chat/templates/)), and a view that will simply serve the chat room HTML page:
 ```python
 # chatter/chat/views.py
 from django.shortcuts import render
@@ -191,7 +153,10 @@ def chatroom(request, slug):
 
 ###### Consumers
 
-To handle these the websocket events we registered in the Javascript, add the following to a new `consumers.py` within the `chat` app (see [this file](../examples/chatter/chat/consumers.py) for the full implementation).
+To handle these the websocket events we registered in the Javascript, add two files to a `consumers` within the `chat` app (see [this file](../examples/chatter/chat/consumers.py) for the full implementation):
+
+* [`base.py`](../examples/chatter/chat/consumers/events.py) contains class (`class ChatServer(JsonWebsocketConsumer)`) that handles the basics of connecting to the server, recieving messages, and disconnecting from the server.
+* [`events.py`](../examples/chatter/chat/consumers/events.py) handles all the events from [chat/routing.py](../examples/chatter/chat/routing.py) file's event_routing list. **Note**: The line `Channel('chat.receive').send(content=content)` in [`base.py`](../examples/chatter/chat/consumers/events.py) is the method that finds a match in the `event_routing` list and calls on the corresponding consumer function in [`events.py`](../examples/chatter/chat/consumers/events.py).
 
 It's that simple! To get a fully working example, with no hiccups, follow the instructions in [the README found here](../examples/chatter/README.md).
 

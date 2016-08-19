@@ -5,18 +5,38 @@ $(document).ready(function () {
     // Create a new Channel instance (which handles connecting to server)
     var channel = new Channel(ws_path);
 
+    channel.on('connect', function (channel) {
+        var username = prompt('What is your username?');
+        
+        var username_element = $('#chat-username');
+        username_element.val(username);
+        username_element.attr('disabled', true);
+        
+        channel.emit('user-join', {
+            'username': username
+        })
+    });
+
     /**
      * Updates the member count in the chat room
      * @param data The data dictionary from the server
      */
-    var update_member_count = function (data) {
-        var member_count = data['member_count'];
-        $('#member-count').html(member_count);
+    var update_members = function (data) {
+        var members = data['members'];
+        var html = '';
+        $.each(members, function (idx, member) {
+            console.log(member);
+            html += '<li class="list-group-item">';
+            html += member['username'];
+            html += '</li>';
+        });
+        $('#chat-members').html(html);
+        $('#chat-member-count').html(members.length);
     };
 
-    // Register the user_join event
-    channel.on('user-join', update_member_count);
-    channel.on('user-leave', update_member_count);
+    // Register the user-join and user-leave events
+    channel.on('user-join', update_members);
+    channel.on('user-leave', update_members);
 
     // Handle receiving new messages from other users
     channel.on('message-new', function (data) {

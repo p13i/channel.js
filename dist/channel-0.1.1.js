@@ -19,7 +19,7 @@ var ChannelError = (function (_super) {
  * Provides simple Javascript API for sending and receiving messages from web servers running Django Channel
  *
  * @author Pramod Kotipalli
- * @version 0.1.0
+ * @version 0.1.1
  */
 var Channel = (function () {
     /**
@@ -101,11 +101,11 @@ var Channel = (function () {
         /**
          * Sends a message to the socket server
          *
-         * @param command The name of the command to send to the socket server
+         * @param event The name of the event to send to the socket server
          * @param data The data to send
          */
-        this.emit = function (command, data) {
-            data['command'] = command;
+        this.emit = function (event, data) {
+            data['event'] = event;
             _this._socket.send(JSON.stringify(data));
         };
         var absolutePath;
@@ -117,7 +117,7 @@ var Channel = (function () {
             absolutePath = webSocketPath;
         }
         else {
-            throw new Error('Invalid pathType chosen');
+            throw new ChannelError('Invalid pathType chosen');
         }
         this.connectTo(absolutePath);
     }
