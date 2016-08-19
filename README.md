@@ -1,5 +1,35 @@
-# channel.js
+## channel.js
 
-A simple JS front-end API for Django Channels apps
+A simple [socket.io](socket.io)-like Javascript front-end API that for Django Channels apps.
 
-Check out this [project's description](https://github.com/k-pramod/channel.js/blob/master/docs/channel.md) and [brief tutorial](https://github.com/k-pramod/channel.js/blob/master/docs/tutorial.md)!
+### Django Channels and `channel.js`
+
+NodeJS's [socket.io](http://socket.io/) provides the simplest client-side API for developing websocket-based real-time applications. [Django Channels](https://channels.readthedocs.io/en/latest/) provides a simple and powerful backend API for managing real-time communications that easily ties in with [Django's ORM](http://tutorial.djangogirls.org/en/django_orm/). This project aims to provide a socket.io-like Javascript API for simple real-time applications.
+
+### Getting started
+
+Simply add the following references to your client-side HTML markup:
+```html
+<script type="text/javascript" src="
+https://raw.githubusercontent.com/k-pramod/channel.js/master/dist/reconnecting-websocket.js"></script>
+<script type="text/javascript" src="
+https://raw.githubusercontent.com/k-pramod/channel.js/master/dist/channel-0.1.1.js"></script>
+```
+
+Or clone this repo and use the latest files from the `dist` directory.
+
+### Documentation
+
+Check out this [project's API](docs/channel.md) and [brief tutorial](docs/tutorial.md) in the [`docs`](docs) directory.
+
+### Example
+
+This project features a fully-worked, front-to-back example of `channel.js` and Django Channels. Find the source code in the [`examples/chatter`](examples/chatter) directory where brief setup instructions can also be found.
+
+### Contributing
+
+If you would like to propose new features, please use this repo's [GitHub Issue tracker](https://github.com/k-pramod/channel.js/issues). If you would like to submit code to be included in future releases, please keep up to date with the `dev` branch and fork this repo.
+
+---
+[Pramod Kotipalli](http://pramodk.net/)
+ 
