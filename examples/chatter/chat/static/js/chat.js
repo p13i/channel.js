@@ -6,7 +6,10 @@ $(document).ready(function () {
     var channel = new Channel(ws_path);
 
     channel.on('connect', function (channel) {
-        var username = prompt('What is your username?');
+        var username = null;
+        while (!username) {
+            username = prompt('What is your username? (Required)');
+        }
 
         var username_element = $('#chat-username');
         username_element.val(username);

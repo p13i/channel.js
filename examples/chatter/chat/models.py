@@ -42,7 +42,7 @@ class Room(models.Model):
         """
         Returns an array of member information
         """
-        return [member.serialized for member in self.member_set.all()]
+        return [member.as_dict for member in self.member_set.all()]
 
     @property
     def member_count(self):    # type: () -> int
@@ -51,6 +51,9 @@ class Room(models.Model):
     @property
     def group(self):  # type: () -> Group
         return Group(self.slug)
+
+    def __str__(self):
+        return "'{}' room ({} members)".format(self.slug, self.member_count)
 
 
 class Member(models.Model):
@@ -63,7 +66,7 @@ class Member(models.Model):
     reply_channel_name = models.CharField(max_length=128, null=False)
 
     @property
-    def serialized(self):  # type: () -> dict
+    def as_dict(self):  # type: () -> dict
         """
         Provides a serialized version of this member
         :return:
