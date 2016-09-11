@@ -11,7 +11,10 @@ def chatroom(request, slug):  # type: (HttpRequest, str) -> HttpResponse
     :return: The metronome room with the given name
     """
     room, created = Room.objects.get_or_create(slug=slug)
-
+    rooms = Room.objects.all()
     return render(request=request,
                   template_name='chat/room.html',
-                  context={'room': room})
+                  context={
+                      'room': room,
+                      'rooms': rooms,
+                  })

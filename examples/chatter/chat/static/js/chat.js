@@ -7,11 +7,11 @@ $(document).ready(function () {
 
     channel.on('connect', function (channel) {
         var username = prompt('What is your username?');
-        
+
         var username_element = $('#chat-username');
         username_element.val(username);
         username_element.attr('disabled', true);
-        
+
         channel.emit('user-join', {
             'username': username
         })
@@ -25,7 +25,6 @@ $(document).ready(function () {
         var members = data['members'];
         var html = '';
         $.each(members, function (idx, member) {
-            console.log(member);
             html += '<li class="list-group-item">';
             html += member['username'];
             html += '</li>';
@@ -69,5 +68,26 @@ $(document).ready(function () {
 
         // Send the message across the channel
         channel.emit('message-send', data);
+
+        // Prevent page reloading
+        return false;
+    });
+
+    var binder = new Channel('/binding/');
+    var bindingAgent = binder.bind('room');
+    bindingAgent.create(function (data) {
+        var roomItem =
+            '<li data-room_id="'
+            + data.pk
+            + '" class="list-group-item">'
+            + data.slug
+            + '</li>';
+        $("#chat-rooms").append(roomItem);
+    });
+    bindingAgent.update(function (data) {
+        $("[data-room_id=" + data.pk + "]").html(data.slug);
+    });
+    bindingAgent.destroy(function (data) {
+        $("[data-room_id=" + data.pk + "]").remove();
     });
 });
