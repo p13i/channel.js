@@ -6,34 +6,34 @@ The aim of this project is provide a front-end Javascript API and set of backend
 
 With `channel.js`, clients receive `event`s from the server and send `event`s to the server. When an event is received from the server, `channel.js` calls upon a registered client-side function which performs the needed actions. To send a message, the client will `emit` an event and data to the server through a `event` string. **This project is under active development so this API may change over time.**
 
-### API
+### API (v0.2.0)
 
 * `Channel` - the Javascript 'class' wrapping a web socket connection
 
-    * **constructor**: `new Channel(ws_path, path_type)`:
+    * **constructor**: `new Channel(webSocketPath, pathType)`:
 
-        * `ws_path` (type: `string`): The path of the websocket
+        * `webSocketPath` (type: `string`): The path of the websocket
 
-        * `path_type` (type: `string`) (options: `relative`, `absolute`): The type of URI passed as `ws_path`. `relative` indicates that the `ws_path` provided is found on this host (i.e. `window.location.host`). `absolute` indicates that the `ws_path` is an absolute websocket path
+        * `pathType` (type: `string`) (options: `relative`, `absolute`): The type of URI passed as `webSocketPath`. `relative` indicates that the `ws_path` provided is found on this host (i.e. `window.location.host`). `absolute` indicates that the `webSocketPath` is an absolute websocket path
 
         _Example_:
         ```javascript
         // Connect to a websocket at `ws://your-host/chat/room-name/stream/`
         var relative_path = '/chat/room-name/stream/';
         var channel = new Channel(relative_path, 'relative');
-        // In this case, the `path_type` is optional. So the following is equivalent:
+        // In this case, the `pathType` is optional. So the following is equivalent:
         var channel = new Channel(relative_path);
 
         // Connect to a websocket on another server at `ws://other-host/chat/room-name/stream/`
-        var absolute_path = 'ws://other-host/chat/room-name/stream/';
+        var absolute_path = 'ws://example.com/chat/room-name/stream/';
         var someones_channel = new Channel(absolute_path, 'absolute');
         ```
 
-    * `.on(event_name, func)`:
+    * `.on(eventName, clientFunction)`:
         
-        * `event_name` (type: `string`): the event received from a server that should trigger a client-side event
+        * `eventName` (type: `string`): the event received from a server that should trigger a client-side event
         
-        * `func` (type: `function`): a function that takes in a `data` dictionary parameter
+        * `clientFunction` (type: `function`): a function that takes in a `data` dictionary parameter
 
         _Example_:
         ```javascript
@@ -45,9 +45,9 @@ With `channel.js`, clients receive `event`s from the server and send `event`s to
         });
         ```
     
-    * `.emit(event_name, data)`:
+    * `.emit(eventName, data)`:
     
-        * `event_name` (type: `string`): The task to notify the server of (e.g. 'user-join' or 'message-send')
+        * `eventName` (type: `string`): The task to notify the server of (e.g. 'user-join' or 'message-send')
     
         * `data` (type: dictionary): The data to be sent to the websocket server
         
@@ -69,5 +69,28 @@ With `channel.js`, clients receive `event`s from the server and send `event`s to
             channel.emit('message-send', data);
         });
         ```
+    
+    * `.bind('streamName')`:
+        
+        * `streamName` (type: `string`): The name of the data-binding stream to listen to
+        
+        * **returns** `BindingAgent` object that allows you to easily register `create`, `update`, and `destroy` (delete) functions
+        
+        _Example_: You can create a new channel just for handling data bindings
+        ```javascript
+        var channel = new Channel('/binding/');
+        channel.bind('room')
+            .create(function(data) { ... })
+            .update(function(data) { ... })
+            .destroy(function(data) { ... });
+           
+        channel.bind('message')
+            .create(function(data) { ... });
+        ```
+        In each of these consumer functions, the `data` parameter contains all the fields of the Django database model. The `...` portion of the functions can take care of updating the HTML with the new or updated data.
 
 Just like with socket.io, `.on` is used to take client-side actions and `.emit` is used to send messages to the server.
+
+### Change log
+
+See the GitHub repo's [Releases page](https://github.com/k-pramod/channel.js/releases) for a list of changes with each release.
