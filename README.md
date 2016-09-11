@@ -13,7 +13,7 @@ Simply add the following references to your client-side HTML markup:
 <script type="text/javascript" src="
 https://raw.githubusercontent.com/k-pramod/channel.js/master/dist/reconnecting-websocket.js"></script>
 <script type="text/javascript" src="
-https://raw.githubusercontent.com/k-pramod/channel.js/master/dist/channel-0.1.1.js"></script>
+https://raw.githubusercontent.com/k-pramod/channel.js/master/dist/channel-0.2.0.js"></script>
 ```
 
 Or clone this repo and use the latest files from the `dist` directory.
@@ -30,7 +30,6 @@ This project features a fully-worked, front-to-back example that illustrates how
 
 Features to be implemented in the near future include:
 
-* Support for Django Channel's data binding
 * More diverse examples with ['Deploy to Heroku'](https://devcenter.heroku.com/articles/heroku-button) buttons
 
 ### Contributing
@@ -39,4 +38,3 @@ If you would like to propose new features, please use this repo's [GitHub Issue 
 
 ---
 [Pramod Kotipalli](http://pramodk.net/)
- 
