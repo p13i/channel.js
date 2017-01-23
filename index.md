@@ -1,14 +1,40 @@
-### Welcome to GitHub Pages.
-This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here [using GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/), select a template crafted by a designer, and publish. After your page is generated, you can check out the new `gh-pages` branch locally. If you’re using GitHub Desktop, simply sync your repository and you’ll see the new branch.
+## channel.js
 
-### Designer Templates
-We’ve crafted some handsome templates for you to use. Go ahead and click 'Continue to layouts' to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved.
+A simple [socket.io](socket.io)-like Javascript front-end for Django Channels apps.
 
-### Creating pages manually
-If you prefer to not use the automatic generator, push a branch named `gh-pages` to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.
+### Django Channels and `channel.js`
 
-### Authors and Contributors
-You can @mention a GitHub username to generate a link to their profile. The resulting `<a>` element will link to the contributor’s GitHub Profile. For example: In 2007, Chris Wanstrath (@defunkt), PJ Hyett (@pjhyett), and Tom Preston-Werner (@mojombo) founded GitHub.
+NodeJS' [socket.io](http://socket.io/) provides the simplest client-side API for developing websocket-based real-time applications. [Django Channels](https://channels.readthedocs.io/en/latest/) provides a simple and powerful backend API for managing real-time communications that easily ties in with [Django's ORM](http://tutorial.djangogirls.org/en/django_orm/). This project aims to provide a socket.io-like Javascript API for simple real-time applications.
 
-### Support or Contact
-Having trouble with Pages? Check out our [documentation](https://help.github.com/pages) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+### Getting started
+
+Simply add the following references to your client-side HTML markup:
+```html
+<script type="text/javascript" src="
+https://raw.githubusercontent.com/k-pramod/channel.js/master/dist/reconnecting-websocket.js"></script>
+<script type="text/javascript" src="
+https://raw.githubusercontent.com/k-pramod/channel.js/master/dist/channel-0.2.0.js"></script>
+```
+
+Or clone this repo and use the latest files from the `dist` directory.
+
+### Documentation
+
+Check out this [project's API](docs/channel.md) and [brief tutorial](docs/tutorial.md) in the [`docs`](docs) directory.
+
+### Example
+
+This project features a fully-worked, front-to-back example that illustrates how `channel.js` and Django Channels tie in together. Find the source code in the [`examples/chatter`](examples/chatter) directory where brief setup instructions can also be found.
+
+### Future work
+
+Features to be implemented in the near future include:
+
+* More diverse examples with ['Deploy to Heroku'](https://devcenter.heroku.com/articles/heroku-button) buttons
+
+### Contributing
+
+If you would like to propose new features, please use this repo's [GitHub Issue tracker](https://github.com/k-pramod/channel.js/issues). If you would like to submit code to be included in future releases, please fork this repo and submit Pull Requests.
+
+---
+[Pramod Kotipalli](http://pramodk.net/)
