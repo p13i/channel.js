@@ -4,5 +4,10 @@ google_analytics:
 show_downloads: true
 theme: jekyll-theme-cayman
 
+# About/contact
+author:
+  name:       Pramod Kotipalli
+  url:        http://pramodk.net/ 
+
 gems:
   - jekyll-mentions
