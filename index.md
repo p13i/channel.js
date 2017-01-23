@@ -20,7 +20,7 @@ Or clone this repo and use the latest files from the `dist` directory.
 
 ### Documentation
 
-Check out this [project's API](docs/channel.md) and [brief tutorial](docs/tutorial.md) in the [`docs`](docs) directory.
+Check out this [project's API](https://github.com/k-pramod/channel.js/blob/master/docs/channel.md) and [brief tutorial](https://github.com/k-pramod/channel.js/blob/master/docs/tutorial.md) in the [`docs`](docs) directory.
 
 ### Example
 
