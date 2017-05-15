@@ -1,3 +1,5 @@
+/// <reference path="references.ts"/>
+
 /**
  * CHANNEL.JS - a simple Javascript front-end for Django Channels websocket applications
  *
@@ -12,7 +14,7 @@
  */
 class Channel implements ChannelInterface {
     /** The actual WebSocket connecting with the Django Channels server */
-    public _socket: WebSocket;
+    public _socket: ReconnectingWebSocket;
     public _webSocketPath: string;
 
     /** The client-specified functions that are called with a particular event is received */
@@ -220,22 +222,6 @@ class BindingAgent {
         return this;
     }
 }
-
-/**
- * Interface for WebSocket (ReconnectingWebSocket)
- */
-interface ReconnectingSocket extends WebSocket {
-    /**
-     * Constructor for WebSocket
-     * @param wsPath The path of the websocket on the internet
-     */
-    new(wsPath: string);
-}
-
-/**
- * reconnecting-websocket.js is the web socket API used behind the scenes
- */
-declare var ReconnectingWebSocket: ReconnectingSocket;
 
 /**
  * Interface of Django Channels socket that emulates the behavior of NodeJS' socket.io
