@@ -1,12 +1,12 @@
-## `channel.js` API
+# `channel.js` API
 
 The aim of this project is provide a front-end Javascript API and set of backend practices that make it incredibly easy to develop real-time applications with Django.
 
-### Concepts
+## Concepts
 
 With `channel.js`, clients receive `event`s from the server and send `event`s to the server. When an event is received from the server, `channel.js` calls upon a registered client-side function which performs the needed actions. To send a message, the client will `emit` an event and data to the server through a `event` string. **This project is under active development so this API may change over time.**
 
-### API (v0.2.0)
+## API (v0.2.0)
 
 * `Channel` - the Javascript 'class' wrapping a web socket connection
 
@@ -91,6 +91,6 @@ With `channel.js`, clients receive `event`s from the server and send `event`s to
 
 Just like with socket.io, `.on` is used to take client-side actions and `.emit` is used to send messages to the server.
 
-### Change log
+## Change log
 
 See the GitHub repo's [Releases page](https://github.com/k-pramod/channel.js/releases) for a list of changes with each release.

@@ -1,13 +1,13 @@
-#### API tutorial
+# API tutorial
 
 In this tutorial let's design a (very) simple chat app that demonstrates basic usage of this library.
 
 
-##### Complete example
+## Complete example
 
 The **complete** example (with setup instructions) can be [found here](../examples/chatter/). **This 'tutorial' is not meant to produce functional code so you should definitely clone the example and set it up with the instructions in the [README](../examples/chatter/README.md)**
 
-##### Front-end
+## Front-end
 
 After instantiating a `new Channel(wsPath)` to the specified `wsPath` URL, you may register events through the `.on(event, func)` function and send messages with the `.emit(command, data)`.
 
@@ -53,9 +53,9 @@ submit_button.on('click', function () {
 
 It's that simple! `channel.js` takes take of parsing JSON, modifying dictionaries, serializing, and provides this simple API. The full Javascript source for thie example can be found here inside the working project
 
-##### Back-end
+## Back-end
 
-###### Configuration
+### Configuration
 
 Implementing the backend for `channel.js`-based apps is a little more involved but it is not too difficult! Let's create our Django project:
 
@@ -98,7 +98,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chatter.settings')
 channel_layer = get_channel_layer()
 ```
 
-###### Routing
+### Routing
 
 Finally, we have to wire up some initial routing in a new `routing.py` in `chatter/chatter`:
 
@@ -129,12 +129,12 @@ event_routing = [
 ]
 ```
 
-###### Models
+### Models
 
 We'll need to create a model that represents a single chat room as well. In this model, let's also add some code that will be useful for our socket-based messaging. Check out [chatter/chat/models.py](../examples/chatter/chat/models.py) for the full (and commented) implementation. 
 
 
-###### Templates and Views
+### Templates and Views
 
 Let's also create templates (omitted in this tutorial but [found here](../examples/chatter/chat/templates/)), and a view that will simply serve the chat room HTML page:
 ```python
@@ -151,7 +151,7 @@ def chatroom(request, slug):
 ```
 
 
-###### Consumers
+### Consumers
 
 To handle these the websocket events we registered in the Javascript, add two files to a `consumers` within the `chat` app (see [this file](../examples/chatter/chat/consumers.py) for the full implementation):
 
