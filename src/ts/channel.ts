@@ -262,7 +262,7 @@ interface ChannelInterface {
  */
 class ChannelError extends Error {
     public name = 'ChannelError';
-    constructor(public message?: string) {
+    constructor(public message: string) {
         super(message);
     }
 }
