@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "amd",
+    "target": "es5",
+    "sourceMap": false,
+    "outFile": "../dist/channel.js"
+  },
+  "files": [
+    "ts/references",
+    "ts/reconnecting-websocket",
+    "ts/channel"
+  ]
+}
