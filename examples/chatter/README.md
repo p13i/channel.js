@@ -1,15 +1,19 @@
-### Chatter: a simple example for usage of channel.js
+# Chatter
 
-#### Getting up and running
+A simple example for usage of channel.js
 
-* `pip install virtualenv --upgrade`
-* `git clone https://github.com/k-pramod/channel.js.git`
-* `virtualenv venv` or `virtual -p C:\Python27\python.exe venv` for Python 2.7
-* `cd examples/chatter`
-* `venv\Scripts\activate`
-* `pip install -r requirements.txt`
-* `python manage.py runserver`
+## Getting up and running
 
-Navigate to `localhost:8000/chat/myRoom/` and have fun chatting!
+This repository provides two options for getting the example app up and running: Docker (preferred) and Vagrant.
 
-This example works with Python 2.7+. (When using a virtualenv with Python 2.7, you may run into [this error](http://stackoverflow.com/questions/16259729/django-python-manage-py-runserver-gives-runtimeerror-maximum-recursion-depth-e).)
+### Docker
+
+Please install Docker and Docker Compose, and run `docker-compose up` from this directory. Navigate to [`localhost:8080`](http://localhost:8080).
+
+### Vagrant
+
+Please install Vagrant and run `vagrant up` from this directory. Navigate to [`localhost:8080`](http://localhost:8080).
+
+---
+
+[Pramod Kotipalli](https://pramodk.net/), 2017
