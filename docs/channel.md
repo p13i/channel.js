@@ -47,6 +47,8 @@ With `channel.js`, clients receive `event`s from the server and send `event`s to
     
         * `data` (type: dictionary): The data to be sent to the websocket server
         
+        This method takes the given `data` dictionary and adds a new entry for the `eventName` provided: `data['event'] = eventName`. This `data` dictionary is serialized with `JSON.stringify` and is sent with the underlying `WebSocket`. The backend should use the `eventName` attribute as appropriate.
+        
         _Example_: When an HTML button is clicked, send a message to the Channel
         ```html
         <!-- The message input and submit button -->
