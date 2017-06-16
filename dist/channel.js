@@ -182,14 +182,6 @@ var ReconnectingWebSocket = (function () {
 ReconnectingWebSocket.debugAll = false;
 /// <reference path="references.ts"/>
 /**
- * CHANNEL.JS - a simple Javascript front-end for Django Channels websocket applications
- *
- * This software is provided under the MIT License.
- *
- * @author PRAMOD KOTIPALLI [http://pramodk.net/, http://github.com/k-pramod]
- * @version 0.2.0
- */
-/**
  * Provides simple Javascript API for sending and receiving messages from web servers running Django Channel
  */
 var Channel = (function () {

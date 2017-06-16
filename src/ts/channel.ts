@@ -10,6 +10,26 @@
  */
 
 /**
+ * Interface of Django Channels socket that emulates the behavior of NodeJS' socket.io
+ * This project has only one dependency: ReconnectingWebSocket.js
+ */
+interface ChannelInterface {
+    /**
+     * Setup trigger for client-side function when the Channel receives a message from the server
+     * @param event The 'event' received from the server
+     * @param clientFunction The client-side Javascript function to call when the `event` is triggered
+     */
+    on: (event: string, clientFunction: (data: {[key: string]: string}) => void) => void;
+
+    /**
+     * Sends a message to the web socket server
+     * @param event The string name of the task being commanded of the server
+     * @param data The data dictionary to send to the server
+     */
+    emit: (event: string, data: {}) => void;
+}
+
+/**
  * Provides simple Javascript API for sending and receiving messages from web servers running Django Channel
  */
 class Channel implements ChannelInterface {
@@ -221,26 +241,6 @@ class BindingAgent {
         this.registerConsumer('delete', clientFunction);
         return this;
     }
-}
-
-/**
- * Interface of Django Channels socket that emulates the behavior of NodeJS' socket.io
- * This project has only one dependency: ReconnectingWebSocket.js
- */
-interface ChannelInterface {
-    /**
-     * Setup trigger for client-side function when the Channel receives a message from the server
-     * @param event The 'event' received from the server
-     * @param clientFunction The client-side Javascript function to call when the `event` is triggered
-     */
-    on: (event: string, clientFunction: (data: {[key: string]: string}) => void) => void;
-
-    /**
-     * Sends a message to the web socket server
-     * @param event The string name of the task being commanded of the server
-     * @param data The data dictionary to send to the server
-     */
-    emit: (event: string, data: {}) => void;
 }
 
 /**
