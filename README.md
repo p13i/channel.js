@@ -1,6 +1,6 @@
 # channel.js
 
-A simple [socket.io](socket.io)-like Javascript front-end for Django Channels apps.
+A simple [socket.io](https://socket.io/)-like Javascript front-end for Django Channels apps.
 
 ## Django Channels and `channel.js`
 
