@@ -6,7 +6,7 @@ $(document).ready(function () {
     var channel = new Channel(ws_path);
 
     channel.on('connect', function (channel) {
-        var username = null;
+        var username = "pramodk";
         while (!username) {
             username = prompt('What is your username? (Required)');
         }
@@ -43,13 +43,14 @@ $(document).ready(function () {
     // Handle receiving new messages from other users
     channel.on('message-new', function (data) {
         $('#chat-messages').prepend(
-            '<li class="list-group-item"><strong>'
+            '<li class="list-group-item">'
+            + '<span class="badge badge-pill badge-success float-right italics">'
+            + data['time']
+            + '</span>&nbsp;<strong>'
             + data['username']
             + '</strong>&nbsp;'
-            + data['msg'] +
-            '<span class="tag tag-pill tag-success float-right italics">'
-            + data['time']
-            + '</span></li>');
+            + data['msg']
+            + '</li>');
     });
 
     // Handle the user submitting new messages
