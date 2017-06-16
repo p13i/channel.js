@@ -5,7 +5,9 @@ channels==0.17.3
 daphne==0.14.3
 dj-database-url==0.4.1
 Django==1.9.8
+django-crispy-forms==1.6.1
 msgpack-python==0.4.7
+psycopg2==2.6.1
 redis==2.10.5
 six==1.10.0
 Twisted==16.2.0

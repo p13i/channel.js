@@ -1,6 +1,19 @@
-from django.shortcuts import render
+from django.core.urlresolvers import reverse
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render, redirect
 
+from .forms import RoomForm
 from .models import Room
+
+
+def index(request):
+    form = RoomForm(form_action=reverse('index'), data=request.POST or None)
+
+    if request.method == 'POST':
+        if form.is_valid():
+            return redirect('room', slug=form.cleaned_data['slug'])
+
+    return render(request, 'chat/index.html', {'rooms': Room.objects.all(), 'form': form})
 
 
 def chatroom(request, slug):  # type: (HttpRequest, str) -> HttpResponse

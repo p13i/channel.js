@@ -1,8 +1,8 @@
 from django.conf.urls import url
-from django.contrib import admin
 
 from . import views
 
 urlpatterns = [
-    url(r'^(?P<slug>[a-zA-Z0-9_]+)/$', views.chatroom),
+    url(r'^chat/(?P<slug>[a-zA-Z0-9_]+)/$', views.chatroom, name='room'),
+    url(r'^$', views.index, name='index'),
 ]
