@@ -55,22 +55,26 @@ class Channel implements ChannelInterface {
      * @param webSocketPath
      *      The path on the server. The path should be specified **relative** to the host.
      *      For example, if your server is listening at http://ws.pramodk.net/chat/myRoomName/,
-     *      you must provide the websocketPath as `'/chat/myRoomName/'`
-     *      This approach eliminates the potential of CORS-related issues.
-     * @param pathType
-     *      Tell what the type of the path is.
-     *      Set to 'absolute' if you would like to send into the entire path of the websocket
+     *      you can provide the websocketPath as `'/chat/myRoomName/'` or as `'http://ws.pramodk.net/chat/myRoomName/'`.
+     *      Either one works.
      */
-    constructor(webSocketPath: string, pathType: string = 'relative') {
-        let absolutePath;
-        if (pathType == 'relative') {
-            let socketScheme = window.location.protocol == "https:" ? "wss" : "ws";
-            absolutePath = socketScheme + '://' + window.location.host + webSocketPath;
-        } else if (pathType == 'absolute') {
-            absolutePath = webSocketPath;
-        } else {
-            throw new ChannelError('Invalid pathType chosen');
+    constructor(webSocketPath: string) {
+        if (webSocketPath == null || webSocketPath.length === 0) {
+            throw new ChannelError(
+                "webSocketPath parameter in Channel constructor is null or empty. " +
+                "Please provide a webSocketPath."
+            );
         }
+
+        let absolutePath: string;
+        // If the first character of the path is '/' indicating that the path is relative to the current host
+        if (webSocketPath[0] === '/') {
+            let socketScheme = window.location.protocol == "https:" ? "wss" : "ws";
+            absolutePath = socketScheme + '://' + window.location.host + ":" + window.location.port + webSocketPath;
+        } else {
+            absolutePath = webSocketPath;
+        }
+
         this.connectTo(absolutePath);
     }
 

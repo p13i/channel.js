@@ -10,23 +10,19 @@ With `channel.js`, clients receive `event`s from the server and send `event`s to
 
 * `Channel` - the Javascript 'class' wrapping a web socket connection
 
-    * **constructor**: `new Channel(webSocketPath, pathType)`:
+    * **constructor**: `new Channel(webSocketPath)`:
 
         * `webSocketPath` (type: `string`): The path of the websocket
-
-        * `pathType` (type: `string`) (options: `relative`, `absolute`): The type of URI passed as `webSocketPath`. `relative` indicates that the `ws_path` provided is found on this host (i.e. `window.location.host`). `absolute` indicates that the `webSocketPath` is an absolute websocket path
 
         _Example_:
         ```javascript
         // Connect to a websocket at `ws://your-host/chat/room-name/stream/`
         var relative_path = '/chat/room-name/stream/';
-        var channel = new Channel(relative_path, 'relative');
-        // In this case, the `pathType` is optional. So the following is equivalent:
         var channel = new Channel(relative_path);
 
         // Connect to a websocket on another server at `ws://other-host/chat/room-name/stream/`
         var absolute_path = 'ws://example.com/chat/room-name/stream/';
-        var someones_channel = new Channel(absolute_path, 'absolute');
+        var someones_channel = new Channel(absolute_path);
         ```
 
     * `.on(eventName, clientFunction)`:

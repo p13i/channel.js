@@ -191,14 +191,10 @@ var Channel = (function () {
      * @param webSocketPath
      *      The path on the server. The path should be specified **relative** to the host.
      *      For example, if your server is listening at http://ws.pramodk.net/chat/myRoomName/,
-     *      you must provide the websocketPath as `'/chat/myRoomName/'`
-     *      This approach eliminates the potential of CORS-related issues.
-     * @param pathType
-     *      Tell what the type of the path is.
-     *      Set to 'absolute' if you would like to send into the entire path of the websocket
+     *      you can provide the websocketPath as `'/chat/myRoomName/'` or as `'http://ws.pramodk.net/chat/myRoomName/'`.
+     *      Either one works.
      */
-    function Channel(webSocketPath, pathType) {
-        if (pathType === void 0) { pathType = 'relative'; }
+    function Channel(webSocketPath) {
         var _this = this;
         /** The client-specified functions that are called with a particular event is received */
         this._clientConsumers = {
@@ -294,16 +290,18 @@ var Channel = (function () {
         this.bind = function (streamName) {
             return new BindingAgent(_this, streamName);
         };
-        var absolutePath;
-        if (pathType == 'relative') {
-            var socketScheme = window.location.protocol == "https:" ? "wss" : "ws";
-            absolutePath = socketScheme + '://' + window.location.host + webSocketPath;
+        if (webSocketPath == null || webSocketPath.length === 0) {
+            throw new ChannelError("webSocketPath parameter in Channel constructor is null or empty. " +
+                "Please provide a webSocketPath.");
         }
-        else if (pathType == 'absolute') {
-            absolutePath = webSocketPath;
+        var absolutePath;
+        // If the first character of the path is '/' indicating that the path is relative to the current host
+        if (webSocketPath[0] === '/') {
+            var socketScheme = window.location.protocol == "https:" ? "wss" : "ws";
+            absolutePath = socketScheme + '://' + window.location.host + ":" + window.location.port + webSocketPath;
         }
         else {
-            throw new ChannelError('Invalid pathType chosen');
+            absolutePath = webSocketPath;
         }
         this.connectTo(absolutePath);
     }
