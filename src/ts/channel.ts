@@ -42,9 +42,9 @@ class Channel implements ChannelInterface {
      *      Set to 'absolute' if you would like to send into the entire path of the websocket
      */
     constructor(webSocketPath: string, pathType: string = 'relative') {
-        var absolutePath;
+        let absolutePath;
         if (pathType == 'relative') {
-            var socketScheme = window.location.protocol == "https:" ? "wss" : "ws";
+            let socketScheme = window.location.protocol == "https:" ? "wss" : "ws";
             absolutePath = socketScheme + '://' + window.location.host + webSocketPath;
         } else if (pathType == 'absolute') {
             absolutePath = webSocketPath;
@@ -64,7 +64,7 @@ class Channel implements ChannelInterface {
     private connectTo = (wsPath: string) => {
         this._socket = new ReconnectingWebSocket(wsPath);
         this._webSocketPath = wsPath;
-        var _innerThis = this;
+        let _innerThis = this;
 
         // Hook up onopen event
         this._socket.onopen = function () {
@@ -78,18 +78,18 @@ class Channel implements ChannelInterface {
 
         // Hook up onmessage to the event specified in _clientConsumers
         this._socket.onmessage = function (message) {
-            var data = JSON.parse(message['data']);
+            let data = JSON.parse(message['data']);
 
             if (data.stream) { // Handle data-binding call
-                var payload = data.payload;
-                var event = BindingAgent.getBindingAgentKey(data.stream, payload.action);
+                let payload = data.payload;
+                let event = BindingAgent.getBindingAgentKey(data.stream, payload.action);
                 data = payload.data;
                 data.model = payload.model;
                 data.pk = payload.pk;
                 _innerThis.callUponClient(event, data, data.stream);
 
             } else if (data.event) { // A websocket regular event has been triggered
-                var event: string = data['event'];
+                let event: string = data['event'];
                 delete data['event'];
                 _innerThis.callUponClient(event, data);
             }
@@ -191,7 +191,7 @@ class BindingAgent {
                 + ". Valid actions are: " +
                 BindingAgent.ACTIONS.toString());
         }
-        var bindingAgentKey = BindingAgent.getBindingAgentKey(this._streamName, bindingAction);
+        let bindingAgentKey = BindingAgent.getBindingAgentKey(this._streamName, bindingAction);
         this._channel.on(bindingAgentKey, clientFunction);
     };
 
