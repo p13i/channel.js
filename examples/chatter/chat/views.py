@@ -6,14 +6,18 @@ from .forms import RoomForm
 from .models import Room
 
 
-def index(request):
+def index(request):  # type: (HttpRequest) -> HttpResponse
     form = RoomForm(form_action=reverse('index'), data=request.POST or None)
 
-    if request.method == 'POST':
-        if form.is_valid():
-            return redirect('room', slug=form.cleaned_data['slug'])
+    if request.method == 'POST' and form.is_valid():
+        return redirect('room', slug=form.cleaned_data['slug'])
 
-    return render(request, 'chat/index.html', {'rooms': Room.objects.all(), 'form': form})
+    context = {
+        'rooms': Room.objects.all(),
+        'form': form,
+    }
+
+    return render(request, 'chat/index.html', context)
 
 
 def chatroom(request, slug):  # type: (HttpRequest, str) -> HttpResponse
@@ -25,9 +29,10 @@ def chatroom(request, slug):  # type: (HttpRequest, str) -> HttpResponse
     """
     room, created = Room.objects.get_or_create(slug=slug)
     rooms = Room.objects.all()
-    return render(request=request,
-                  template_name='chat/room.html',
-                  context={
-                      'room': room,
-                      'rooms': rooms,
-                  })
+
+    context = {
+        'room': room,
+        'rooms': rooms,
+    }
+
+    return render(request, 'chat/room.html', context)

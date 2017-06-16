@@ -6,23 +6,29 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h3>
+                <h1>
                     Welcome to <strong>Chatter</strong>
-                </h3>
+                </h1>
             </div>
+        </div>
 
-            <div class="col-md-4">
+        <div>
+            <div class="col-md-6 col-sm-12">
+                <h2>Active rooms</h2>
                 <ul class="list-group" id="chat-rooms">
                     {% for rm in rooms %}
                         <li class="list-group-item"><a href="{% url 'room' slug=rm.slug %}">{{ rm.slug }}</a></li>
+                    {% empty %}
+                        <p>No rooms available.</p>
                     {% endfor %}
                 </ul>
             </div>
 
-            <div class="col-md-4">
-                <h4>Create a room</h4>
+            <div class="col-md-6 col-sm-12">
+                <h2>Create a room</h2>
 
                 {% crispy form %}
+
             </div>
 
         </div>
