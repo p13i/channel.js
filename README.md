@@ -8,12 +8,10 @@ NodeJS' [socket.io](http://socket.io/) provides the simplest client-side API for
 
 ## Getting started
 
-Simply add the following references to your client-side HTML markup:
+Simply add the following reference to your client-side HTML markup:
 ```html
 <script type="text/javascript" src="
-https://raw.githubusercontent.com/k-pramod/channel.js/master/dist/reconnecting-websocket.js"></script>
-<script type="text/javascript" src="
-https://raw.githubusercontent.com/k-pramod/channel.js/master/dist/channel-0.2.0.js"></script>
+https://raw.githubusercontent.com/k-pramod/channel.js/master/dist/channel.js"></script>
 ```
 
 Or clone this repo and use the latest files from the `dist` directory.
