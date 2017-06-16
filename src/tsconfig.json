@@ -6,8 +6,8 @@
     "outFile": "../dist/channel.js"
   },
   "files": [
-    "ts/references",
-    "ts/reconnecting-websocket",
-    "ts/channel"
+    "ts/references.ts",
+    "ts/reconnecting-websocket.ts",
+    "ts/channel.ts"
   ]
 }
