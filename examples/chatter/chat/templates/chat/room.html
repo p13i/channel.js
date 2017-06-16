@@ -3,13 +3,20 @@
 {% block body %}
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <h3>
+            <div class="col-md-9">
+                <h1>
                     Welcome to <strong>{{ room.slug }}</strong>
-                </h3>
+                </h1>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="chat-username"/>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <h2>Other rooms</h2>
                 <ul class="list-group" id="chat-rooms">
                     {% for rm in rooms %}
                         <li data-room_id="{{ rm.id }}" class="list-group-item">{{ rm.slug }}</li>
@@ -17,33 +24,35 @@
                 </ul>
             </div>
 
-            <div class="col-md-4">
-                <h4>Messages</h4>
+            <div class="col-md-6">
+                <h2>Messages</h2>
                 <ul class="list-group" id="chat-messages">
                 </ul>
             </div>
 
-            <div class="col-md-4">
-                <h4>Send message</h4>
+            <div class="col-md-3">
+
+                <h2>Send message</h2>
 
                 <form>
                     <input type="hidden" value="{{ room.slug }}" id="room-slug">
-                    <div class="form-group">
-                        <label for="chat-username">Username</label>
-                        <input type="text" class="form-control" id="chat-username"/>
-                    </div>
                     <div class="form-group">
                         <label for="chat-form">Message</label>
                         <input class="form-control" id="chat-form"/>
                     </div>
                     <button id="chat-submit" type="submit" class="btn btn-outline-primary btn-block">Submit</button>
                 </form>
-                <h4>Members
-                    <small>(<span id="chat-member-count">{{ room.member_count }}</span>)</small>
-                </h4>
 
+                <hr/>
+
+                <h2>Members
+                    <small>(<span id="chat-member-count">{{ room.member_count }}</span>)</small>
+                </h2>
                 <ul class="list-group" id="chat-members">
                 </ul>
+            </div>
+
+            <div class="col-md-12 align-self-end">
             </div>
         </div>
     </div>
