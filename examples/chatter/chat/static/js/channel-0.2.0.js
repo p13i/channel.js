@@ -75,8 +75,9 @@ var Channel = (function () {
                     var event = data['event'];
                     delete data['event'];
                     _innerThis.callUponClient(event, data);
+                } else {
+                    throw new ChannelError("Unknown action expected of client. " + String(JSON.stringify(data)));
                 }
-                throw new ChannelError("Unknown action expected of client.");
             };
         };
         /**

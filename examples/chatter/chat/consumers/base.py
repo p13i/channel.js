@@ -25,6 +25,7 @@ class ChatServer(JsonWebsocketConsumer):
         """
         slug = kwargs.pop('slug')
         Group(slug).add(message.reply_channel)
+        self.message.reply_channel.send({"accept": True})
 
     def receive(self, content, **kwargs):  # type: (dict, dict)
         """
