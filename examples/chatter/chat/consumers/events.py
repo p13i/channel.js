@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from channels.message import Message
+
 from ..models import Room
 
 
@@ -56,4 +57,3 @@ def client_send(message, **kwargs):  # type: (Message, dict)
             'username': message.content['username'],
             'time': datetime.now().strftime('%I:%M:%S %p')
         })
-

@@ -1,4 +1,5 @@
 from channels import route, route_class
+
 from .consumers import ChatServer, events, Demultiplexer, RoomBinding
 
 chat_routing = [

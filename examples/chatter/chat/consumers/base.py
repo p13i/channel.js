@@ -1,9 +1,6 @@
-from datetime import datetime
-
-from channels.generic.websockets import JsonWebsocketConsumer
 from channels import Group, Channel
+from channels.generic.websockets import JsonWebsocketConsumer
 from channels.message import Message
-from ..models import Room
 
 
 class ChatServer(JsonWebsocketConsumer):
@@ -47,4 +44,3 @@ class ChatServer(JsonWebsocketConsumer):
         # Handle a user-leave event
         message.content['event'] = 'user-leave'
         self.receive(message.content, **kwargs)
-

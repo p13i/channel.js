@@ -1,0 +1,22 @@
+{% extends 'core/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>
+                Welcome to <strong>Chatter</strong>
+            </h1>
+
+            <hr/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <a href="{% url 'user:login' %}" class="btn btn-outline-primary">Login</a>
+            <a href="{% url 'user:register' %}" class="btn btn-outline-success">Register</a>
+        </div>
+    </div>
+{% endblock %}

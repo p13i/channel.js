@@ -2,6 +2,7 @@ import json
 
 from channels import Group
 from django.db import models
+from django.core.urlresolvers import reverse
 
 
 class Room(models.Model):
@@ -45,12 +46,15 @@ class Room(models.Model):
         return [member.as_dict for member in self.member_set.all()]
 
     @property
-    def member_count(self):    # type: () -> int
+    def member_count(self):  # type: () -> int
         return self.member_set.count()
 
     @property
     def group(self):  # type: () -> Group
         return Group(self.slug)
+
+    def get_absolute_url(self):
+        return reverse('chat:room', kwargs={'slug': self.slug})
 
     def __str__(self):
         return "'{}' room ({} members)".format(self.slug, self.member_count)

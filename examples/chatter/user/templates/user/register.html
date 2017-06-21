@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3 col-sm-12">
+            <h1>Register</h1>
+
+            {% crispy registration_form %}
+        </div>
+    </div>
+{% endblock %}

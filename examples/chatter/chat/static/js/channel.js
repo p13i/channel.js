@@ -1,13 +1,20 @@
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+        var extendStatics = Object.setPrototypeOf ||
+            ({__proto__: []} instanceof Array && function (d, b) {
+                d.__proto__ = b;
+            }) ||
+            function (d, b) {
+                for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+            };
+        return function (d, b) {
+            extendStatics(d, b);
+            function __() {
+                this.constructor = d;
+            }
+
+            d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+        };
+    })();
 // MIT License:
 //
 // Copyright (c) 2010-2012, Joe Walnes
@@ -61,7 +68,9 @@ var __extends = (this && this.__extends) || (function () {
  */
 var ReconnectingWebSocket = (function () {
     function ReconnectingWebSocket(url, protocols) {
-        if (protocols === void 0) { protocols = []; }
+        if (protocols === void 0) {
+            protocols = [];
+        }
         //These can be altered by calling code
         this.debug = false;
         //Time to wait before attempting reconnect (after close)
@@ -75,16 +84,22 @@ var ReconnectingWebSocket = (function () {
         //List of WebSocket sub-protocols
         this.protocols = [];
         //Set up the default 'noop' event handlers
-        this.onopen = function (event) { };
-        this.onclose = function (event) { };
-        this.onconnecting = function () { };
-        this.onmessage = function (event) { };
-        this.onerror = function (event) { };
+        this.onopen = function (event) {
+        };
+        this.onclose = function (event) {
+        };
+        this.onconnecting = function () {
+        };
+        this.onmessage = function (event) {
+        };
+        this.onerror = function (event) {
+        };
         this.url = url;
         this.protocols = protocols;
         this.readyState = WebSocket.CONNECTING;
         this.connect(false);
     }
+
     ReconnectingWebSocket.prototype.connect = function (reconnectAttempt) {
         var _this = this;
         this.ws = new WebSocket(this.url, this.protocols);
@@ -206,7 +221,9 @@ var Channel = (function () {
      *      Set to 'absolute' if you would like to send into the entire path of the websocket
      */
     function Channel(webSocketPath, pathType) {
-        if (pathType === void 0) { pathType = 'relative'; }
+        if (pathType === void 0) {
+            pathType = 'relative';
+        }
         var _this = this;
         /** The client-specified functions that are called with a particular event is received */
         this._clientConsumers = {
@@ -265,7 +282,9 @@ var Channel = (function () {
          * @param eventDisplayName The name of the event to print if there is an error (used in data binding calls)
          */
         this.callUponClient = function (event, data, eventDisplayName) {
-            if (eventDisplayName === void 0) { eventDisplayName = event; }
+            if (eventDisplayName === void 0) {
+                eventDisplayName = event;
+            }
             if (!(event in _this._clientConsumers)) {
                 throw new ChannelError("\"" + eventDisplayName + "\" not is a registered event."
                     + "Registered events include: "
@@ -315,6 +334,7 @@ var Channel = (function () {
         }
         this.connectTo(absolutePath);
     }
+
     Channel.prototype.getRegisteredEvents = function () {
         return Object.keys(this._clientConsumers);
     };
@@ -369,6 +389,7 @@ var BindingAgent = (function () {
         this._channel = channel;
         this._streamName = streamName;
     }
+
     return BindingAgent;
 }());
 // The valid actions for users to call bind
@@ -395,6 +416,7 @@ var ChannelError = (function (_super) {
         _this.name = 'ChannelError';
         return _this;
     }
+
     return ChannelError;
 }(Error));
 /// <reference path="reconnecting-websocket.ts"/>

@@ -7,10 +7,13 @@
  * @version 0.2.0
  */
 var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+        for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+        function __() {
+            this.constructor = d;
+        }
+
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
 /**
  * Provides simple Javascript API for sending and receiving messages from web servers running Django Channel
  */
@@ -29,7 +32,9 @@ var Channel = (function () {
      */
     function Channel(webSocketPath, pathType) {
         var _this = this;
-        if (pathType === void 0) { pathType = 'relative'; }
+        if (pathType === void 0) {
+            pathType = 'relative';
+        }
         /** The client-specified functions that are called with a particular event is received */
         this._clientConsumers = {
             // By default, we must specify the 'connect' consumer
@@ -88,7 +93,9 @@ var Channel = (function () {
          * @param eventDisplayName The name of the event to print if there is an error (used in data binding calls)
          */
         this.callUponClient = function (event, data, eventDisplayName) {
-            if (eventDisplayName === void 0) { eventDisplayName = event; }
+            if (eventDisplayName === void 0) {
+                eventDisplayName = event;
+            }
             if (!(event in _this._clientConsumers)) {
                 throw new ChannelError("\"" + eventDisplayName + "\" not is a registered event."
                     + "Registered events include: "
@@ -138,6 +145,7 @@ var Channel = (function () {
         }
         this.connectTo(absolutePath);
     }
+
     Channel.prototype.getRegisteredEvents = function () {
         return Object.keys(this._clientConsumers);
     };
@@ -192,6 +200,7 @@ var BindingAgent = (function () {
         this._channel = channel;
         this._streamName = streamName;
     }
+
     // The valid actions for users to call bind
     BindingAgent.ACTIONS = ['create', 'update', 'delete'];
     BindingAgent.GLUE = "559c09b44d6ff51559f14e87ad2b79ce"; // Hash of "http://pramodk.net" (^-^)
@@ -217,5 +226,6 @@ var ChannelError = (function (_super) {
         this.message = message;
         this.name = 'ChannelError';
     }
+
     return ChannelError;
 }(Error));

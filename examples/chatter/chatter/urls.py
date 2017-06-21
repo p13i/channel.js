@@ -16,5 +16,7 @@ Including another URLconf
 from django.conf.urls import url, include
 
 urlpatterns = [
-    url(r'^', include('chat.urls')),
+    url(r'^auth/', include('user.urls', namespace='user')),
+    url(r'^chat/', include('chat.urls', namespace='chat')),
+    url(r'^(?![\s\S])', include('core.urls')),
 ]
