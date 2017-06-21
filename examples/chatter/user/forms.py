@@ -22,7 +22,7 @@ class RegistrationForm(CrispyModelForm):
             'email',
             'password',
             FormActions(
-                Submit('save', 'Register')
+                Submit('save', 'Register', css_class='btn btn-outline-success btn-block')
             )
         )
 
@@ -46,6 +46,6 @@ class LoginForm(CrispyForm):
             'username',
             'password',
             FormActions(
-                Submit('save', 'Login')
+                Submit('submit', 'Login', css_class='btn btn-outline-primary btn-block')
             )
         )
