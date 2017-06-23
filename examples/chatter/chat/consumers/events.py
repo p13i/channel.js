@@ -1,11 +1,12 @@
 from datetime import datetime
+from typing import Dict, Any
 
 from channels.message import Message
 
 from ..models import Room
 
 
-def user_join(message, **kwargs):  # type: (Message, dict)
+def user_join(message: Message, **kwargs: Dict[str, Any]) -> None:
     """
     Handles a user joining a room
     :param message: The websocket message
@@ -16,7 +17,7 @@ def user_join(message, **kwargs):  # type: (Message, dict)
     username = message.content.pop('username')
     room.add_member(
         username=username,
-        reply_channel_name=message.content.pop('reply_channel_name')
+        reply_channel_name=message.content.pop('reply_channel_name'),
     )
     room.emit(
         event='user-join',
@@ -27,7 +28,7 @@ def user_join(message, **kwargs):  # type: (Message, dict)
     )
 
 
-def user_leave(message, **kwargs):  # type: (Message, dict)
+def user_leave(message: Message, **kwargs: Dict[str, Any]) -> None:
     """
     Handles when a user leaves the room
     """
@@ -39,11 +40,11 @@ def user_leave(message, **kwargs):  # type: (Message, dict)
         event='user-leave',
         data={
             'members': room.members(),
-            'username': left_member.username
+            'username': left_member.username,
         })
 
 
-def client_send(message, **kwargs):  # type: (Message, dict)
+def client_send(message: Message, **kwargs: Dict[str, Any]) -> None:
     """
     Handles when the client sends a message
     """
@@ -55,5 +56,5 @@ def client_send(message, **kwargs):  # type: (Message, dict)
         data={
             'msg': message.content['msg'],
             'username': message.content['username'],
-            'time': datetime.now().strftime('%I:%M:%S %p')
+            'time': datetime.now().strftime('%I:%M:%S %p'),
         })

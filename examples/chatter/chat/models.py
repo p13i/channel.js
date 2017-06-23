@@ -1,8 +1,10 @@
 import json
+from typing import Dict, Any, List
 
 from channels import Group
-from django.db import models
 from django.core.urlresolvers import reverse
+from django.db import models
+from django.contrib.auth.models import User
 
 
 class Room(models.Model):
@@ -12,13 +14,13 @@ class Room(models.Model):
     # The name of the room found in the room URL
     slug = models.CharField(max_length=32, unique=True)
 
-    def emit(self, event, data):  # type: (str, dict)
+    def emit(self, event: str, data: Dict[str, Any]) -> None:
         data['event'] = event
         self.group.send({
             'text': json.dumps(data)
         })
 
-    def add_member(self, **kwargs):  # type: (dict) -> Member
+    def add_member(self, **kwargs: Dict[str, Any]) -> None:
         """
         Adds a new member to this room
         :param kwargs: The properties of the new user
@@ -29,7 +31,7 @@ class Room(models.Model):
         self.member_set.add(new_member)
         return new_member
 
-    def remove_member(self, **kwargs):  # type: (dict) -> Member
+    def remove_member(self, **kwargs: Dict[str, Any]) -> 'Member':
         """
         Removes a members from this room
         :param kwargs: The search parameters for finding the Member to remove
@@ -39,24 +41,24 @@ class Room(models.Model):
         member.delete()
         return member
 
-    def members(self):  # type: () -> [dict]
+    def members(self) -> List[Dict[str, Any]]:
         """
         Returns an array of member information
         """
         return [member.as_dict for member in self.member_set.all()]
 
     @property
-    def member_count(self):  # type: () -> int
+    def member_count(self) -> int:
         return self.member_set.count()
 
     @property
-    def group(self):  # type: () -> Group
+    def group(self) -> Group:
         return Group(self.slug)
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse('chat:room', kwargs={'slug': self.slug})
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "'{}' room ({} members)".format(self.slug, self.member_count)
 
 
@@ -70,7 +72,7 @@ class Member(models.Model):
     reply_channel_name = models.CharField(max_length=128, null=False)
 
     @property
-    def as_dict(self):  # type: () -> dict
+    def as_dict(self) -> Dict[str, Any]:
         """
         Provides a serialized version of this member
         :return:
