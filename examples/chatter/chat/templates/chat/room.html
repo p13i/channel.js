@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-9">
             <h1>
-                Welcome to <strong>{{ room.slug }}</strong>
+                Welcome to <strong>{{ room.name }}</strong>
             </h1>
         </div>
 
@@ -25,6 +25,9 @@
         <div class="col-md-6">
             <h2>Messages</h2>
             <ul class="list-group" id="chat-messages">
+                {% for msg in room.messages.all %}
+                    <li class="list-group-item"><strong>{{ msg.sender.username }}</strong>&nbsp;|&nbsp;{{ msg.text }}</li>
+                {% endfor %}
             </ul>
         </div>
 
@@ -33,7 +36,7 @@
             <h2>Send message</h2>
 
             <form>
-                <input type="hidden" value="{{ room.slug }}" id="room-slug">
+                <input type="hidden" value="{{ room.name }}" id="room-name">
                 <div class="form-group">
                     <label for="chat-form">Message</label>
                     <input class="form-control" id="chat-form"/>

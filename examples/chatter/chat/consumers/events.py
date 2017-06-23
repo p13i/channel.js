@@ -13,7 +13,7 @@ def user_join(message: Message, **kwargs: Dict[str, Any]) -> None:
     :param kwargs: Route kwargs
     :return:
     """
-    room = Room.objects.get(slug=message.content.pop('slug'))
+    room = Room.objects.get(name=message.content.pop('name'))
     username = message.content.pop('username')
     room.add_member(
         username=username,
@@ -32,7 +32,7 @@ def user_leave(message: Message, **kwargs: Dict[str, Any]) -> None:
     """
     Handles when a user leaves the room
     """
-    room = Room.objects.get(slug=message.content.pop('slug'))
+    room = Room.objects.get(name=message.content.pop('name'))
     left_member = room.remove_member(reply_channel_name=message.reply_channel.name)
 
     # Send the user_leave message to the members in the room
@@ -48,13 +48,13 @@ def client_send(message: Message, **kwargs: Dict[str, Any]) -> None:
     """
     Handles when the client sends a message
     """
-    room = Room.objects.get(slug=message.content.pop('slug'))
+    print("RECEIVED MESSAGE {}".format(message.content['msg']), flush=True)
+    room = Room.objects.get(name=message.content.pop('name'))
 
     # Send the new message to the room
-    room.emit(
-        event='message-new',
-        data={
-            'msg': message.content['msg'],
-            'username': message.content['username'],
-            'time': datetime.now().strftime('%I:%M:%S %p'),
-        })
+    room.receive(
+        message_text=message.content['msg'],
+        from_username=message.content['username'],
+    )
+
+    print("Messages in room: {}".format(room.messages.count()), flush=True)

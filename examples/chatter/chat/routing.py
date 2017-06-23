@@ -3,7 +3,7 @@ from channels import route, route_class
 from .consumers import ChatServer, events, Demultiplexer, RoomBinding
 
 chat_routing = [
-    route_class(ChatServer, path=r'^(?P<slug>[^/]+)/stream/$'),
+    route_class(ChatServer, path=r'^(?P<name>[^/]+)/stream/$'),
 ]
 
 event_routing = [

@@ -8,7 +8,7 @@
                 <h2>Active rooms</h2>
                 <ul class="list-group" id="chat-rooms">
                     {% for rm in rooms %}
-                        <li class="list-group-item"><a href="{% url 'chat:room' slug=rm.slug %}">{{ rm.slug }}</a></li>
+                        <li class="list-group-item"><a href="{% url 'chat:room' name=rm.name %}">{{ rm.name }}</a></li>
                     {% empty %}
                         <p>No rooms available.</p>
                     {% endfor %}

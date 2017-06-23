@@ -1,3 +1,5 @@
+from typing import Dict, Any
+
 from channels import Group, Channel
 from channels.generic.websockets import JsonWebsocketConsumer
 from channels.message import Message
@@ -13,18 +15,18 @@ class ChatServer(JsonWebsocketConsumer):
         Called to return the list of groups to automatically add/remove
         this connection to/from.
         """
-        return kwargs.pop('slug')
+        return kwargs.pop('name')
 
-    def connect(self, message, **kwargs):  # type: (Message, dict)
+    def connect(self, message: Message, **kwargs: Dict[str, Any]) -> None:
         """
         Handles connecting to the websocket
         :param message: The socket message
         """
-        slug = kwargs.pop('slug')
-        Group(slug).add(message.reply_channel)
+        name = kwargs.pop('name')
+        Group(name).add(message.reply_channel)
         self.message.reply_channel.send({"accept": True})
 
-    def receive(self, content, **kwargs):  # type: (dict, dict)
+    def receive(self, content: Dict[str, Any], **kwargs: Dict[str, Any]) -> None:
         """
         Handles receiving websocket messages
         """
@@ -34,12 +36,12 @@ class ChatServer(JsonWebsocketConsumer):
         # Unpack the message and send it to metronome.routing.command_routing list
         Channel('chat.receive').send(content=content)
 
-    def disconnect(self, message, **kwargs):  # type: (Message, dict)
+    def disconnect(self, message: Message, **kwargs: Dict[str, Any]):
         """
         Handles disconnecting from a room
         """
-        slug = kwargs['slug']
-        Group(slug).discard(message.reply_channel)
+        name = kwargs['name']
+        Group(name).discard(message.reply_channel)
 
         # Handle a user-leave event
         message.content['event'] = 'user-leave'

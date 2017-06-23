@@ -9,7 +9,7 @@ class RoomForm(CrispyModelForm):
     def __init__(self, *args, **kwargs):
         super(RoomForm, self).__init__(*args, **kwargs)
         self.helper.layout = Layout(
-            'slug',
+            'name',
             FormActions(
                 Submit('submit', 'Create')
             )
@@ -17,4 +17,4 @@ class RoomForm(CrispyModelForm):
 
     class Meta:
         model = Room
-        fields = ('slug',)
+        fields = ('name',)

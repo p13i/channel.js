@@ -1,7 +1,7 @@
 $(document).ready(function () {
-    var room_slug = $('#room-slug').val();
-    // Get the web socket path from the room slug
-    var ws_path = '/chat/' + room_slug + '/stream/';
+    var room_name = $('#room-name').val();
+    // Get the web socket path from the room name
+    var ws_path = '/chat/' + room_name + '/stream/';
     // Create a new Channel instance (which handles connecting to server)
     var channel = new Channel(ws_path);
 
@@ -44,11 +44,9 @@ $(document).ready(function () {
     channel.on('message-new', function (data) {
         $('#chat-messages').prepend(
             '<li class="list-group-item">'
-            + '<span class="badge badge-pill badge-success float-right italics">'
-            + data['time']
-            + '</span>&nbsp;<strong>'
+            + '<strong>'
             + data['username']
-            + '</strong>&nbsp;'
+            + '</strong>&nbsp;|&nbsp;'
             + data['msg']
             + '</li>');
     });
@@ -84,12 +82,12 @@ $(document).ready(function () {
             '<li data-room_id="'
             + data.pk
             + '" class="list-group-item">'
-            + data.slug
+            + data.name
             + '</li>';
         $("#chat-rooms").append(roomItem);
     });
     bindingAgent.update(function (data) {
-        $("[data-room_id=" + data.pk + "]").html(data.slug);
+        $("[data-room_id=" + data.pk + "]").html(data.name);
     });
     bindingAgent.destroy(function (data) {
         $("[data-room_id=" + data.pk + "]").remove();

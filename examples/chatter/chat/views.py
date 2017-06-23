@@ -12,7 +12,7 @@ def home(request: HttpRequest) -> HttpResponse:
     form = RoomForm(form_action=reverse('chat:home'), data=request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
-        return redirect('chat:room', slug=form.cleaned_data['slug'])
+        return redirect('chat:room', name=form.cleaned_data['name'])
 
     context = {
         'rooms': Room.objects.all(),
@@ -23,14 +23,15 @@ def home(request: HttpRequest) -> HttpResponse:
 
 
 @login_required
-def chatroom(request: HttpRequest, slug: str) -> HttpResponse:
+def chatroom(request: HttpRequest, name: str) -> HttpResponse:
     """
     Handles displaying the chat room page
     :param request: The HTTP request
-    :param slug: The name of the room
+    :param name: The name of the room
     :return: The metronome room with the given name
     """
-    room, created = Room.objects.get_or_create(slug=slug)
+    room, created = Room.objects.get_or_create(name=name)
+    print("Room {} created? {}. Messages: {}".format(room.id, created, room.messages.count()), flush=True)
     rooms = Room.objects.all()
 
     context = {
