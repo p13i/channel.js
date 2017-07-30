@@ -4,16 +4,16 @@ A simple example for usage of channel.js
 
 ## Getting up and running
 
-This repository provides two options for getting the example app up and running: Docker (preferred) and Vagrant.
+This repository provides Docker Compose configurations to get this project running quickly.
 
-### Docker
+### Docker Compose
 
-Please install Docker and Docker Compose, and run `docker-compose up` from this directory. Navigate to [`localhost:8080`](http://localhost:8080).
-
-### Vagrant
-
-Please install Vagrant and run `vagrant up` from this directory. Navigate to [`localhost:8080`](http://localhost:8080).
+1. Please install Docker and Docker Compose.
+2. `docker-compose up -d`
+3. `docker-compose run web migrate`
+4. `docker-compose logs --follow`
+5. Navigate to [`localhost:8080`](http://localhost:8080).
 
 ---
 
-[Pramod Kotipalli](https://pramodk.net/), 2017
+[Pramod Kotipalli](http://pramodk.net/)

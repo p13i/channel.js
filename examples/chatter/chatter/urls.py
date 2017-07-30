@@ -20,5 +20,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^auth/', include('user.urls', namespace='user')),
     url(r'^chat/', include('chat.urls', namespace='chat')),
-    url(r'^(?![\s\S])', include('core.urls')),
+    url(r'^$', include('core.urls')),
 ]

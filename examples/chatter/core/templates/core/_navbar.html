@@ -1,35 +1,37 @@
+{% comment %}
+Site-wide navbar
+{% endcomment %}
+
 <header class="navbar navbar-inverse navbar-toggleable-md bd-navbar bg-inverse mb-4">
-    <nav class="container">
 
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
-                data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+            data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
+            aria-label="Toggle navigation">
 
-            <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
 
-        </button>
+    </button>
 
-        <a class="navbar-brand" href="{% url "index" %}">Chatter</a>
+    <a class="navbar-brand" href="{% url "index" %}">Chatter</a>
 
-        <div class="collapse navbar-collapse" id="navbarContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{% url "index" %}">Home</a>
-                </li>
-            </ul>
+    <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url "index" %}">Home</a>
+            </li>
+        </ul>
 
-            {% if request.user.is_authenticated %}
-                <form action="{% url "user:logout" %}" method="post">
-                    {% csrf_token %}
-                    <button class="btn btn-outline-danger my-2 my-sm-0" href="{% url "user:logout" %}" type="submit">
-                        Logout
-                    </button>
-                </form>
-            {% else %}
-                <a class="btn btn-outline-primary my-2 my-sm-0 mr-2" href="{% url "user:login" %}">Login</a>
-                <a class="btn btn-outline-success my-2 my-sm-0" href="{% url "user:register" %}">Register</a>
-            {% endif %}
+        {% if request.user.is_authenticated %}
+            <form action="{% url "user:logout" %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-outline-danger my-2 my-sm-0" href="{% url "user:logout" %}" type="submit">
+                    Logout
+                </button>
+            </form>
+        {% else %}
+            <a class="btn btn-outline-primary my-2 my-sm-0 mr-2" href="{% url "user:login" %}">Login</a>
+            <a class="btn btn-outline-success my-2 my-sm-0" href="{% url "user:register" %}">Register</a>
+        {% endif %}
 
-        </div>
-    </nav>
+    </div>
 </header>

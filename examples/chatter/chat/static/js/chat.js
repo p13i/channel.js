@@ -6,7 +6,7 @@ $(document).ready(function () {
     var channel = new Channel(ws_path);
 
     channel.on('connect', function (channel) {
-        var username = "pramodk";
+        var username = null;
         while (!username) {
             username = prompt('What is your username? (Required)');
         }
@@ -52,8 +52,7 @@ $(document).ready(function () {
     });
 
     // Handle the user submitting new messages
-    var submit_button = $('#chat-submit');
-    submit_button.on('click', function () {
+    $('#message-form').on('submit', function () {
         // Get the username and message
         var username = $('#chat-username');
         var message = $('#chat-form');

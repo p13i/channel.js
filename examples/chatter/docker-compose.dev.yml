@@ -1,8 +1,8 @@
 version: "3"
 
-#################################
-### PRODUCTION DOCKER COMPOSE ###
-#################################
+##################################
+### DEVELOPMENT DOCKER COMPOSE ###
+##################################
 
 services:
 
@@ -10,10 +10,12 @@ services:
   web:
     # Build the container image from this directory
     build: .
-    # Share port 8080 from the container with port 80 on the host machine
+    # Share this directory with the container so we can easily develop new code
+    volumes:
+      - .:/www
+    # Share a port with the hose machine
     ports:
-      - 80:8080
-    # Run the server
+      - 8080:8080
     command: ["runserver", "0.0.0.0:8080"]
     depends_on:
       - postgres

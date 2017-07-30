@@ -2,7 +2,6 @@ import json
 from typing import Dict, Any, List
 
 from channels import Group
-from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
 

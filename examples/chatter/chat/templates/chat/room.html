@@ -10,7 +10,7 @@
 
         <div class="col-md-3">
             <div class="form-group">
-                <input type="text" class="form-control" id="chat-username"/>
+                <input type="hidden" class="form-control" id="chat-username"/>
             </div>
         </div>
 
@@ -22,34 +22,29 @@
             </ul>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-9">
             <h2>Messages</h2>
             <ul class="list-group" id="chat-messages">
                 {% for msg in room.messages.all %}
-                    <li class="list-group-item"><strong>{{ msg.sender.username }}</strong>&nbsp;|&nbsp;{{ msg.text }}</li>
+                    <li class="list-group-item"><strong>{{ msg.sender.username }}</strong>&nbsp;|&nbsp;{{ msg.text }}
+                    </li>
                 {% endfor %}
             </ul>
         </div>
-
-        <div class="col-md-3">
-
-            <h2>Send message</h2>
-
-            <form>
-                <input type="hidden" value="{{ room.name }}" id="room-name">
-                <div class="form-group">
-                    <label for="chat-form">Message</label>
-                    <input class="form-control" id="chat-form"/>
-                </div>
-                <button id="chat-submit" type="submit" class="btn btn-outline-primary btn-block">Submit</button>
-            </form>
-
-            <hr/>
-        </div>
-
-        <div class="col-md-12 align-self-end">
-        </div>
     </div>
+
+    <nav class="navbar fixed-bottom navbar-light bg-faded">
+        <form class="form-inline my-2 my-lg-0" id="message-form">
+            <input type="hidden" value="{{ room.name }}" id="room-name">
+
+            <div class="input-group mb-2 mr-sm-2 mb-sm-0 w-100">
+                <div class="form-group w-100">
+                    <input class="form-control" id="chat-form" placeholder="Your message (press enter to send)."/>
+                </div>
+            </div>
+
+        </form>
+    </nav>
 {% endblock %}
 
 {% block extra_scripts %}

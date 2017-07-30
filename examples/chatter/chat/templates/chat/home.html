@@ -3,24 +3,24 @@
 {% load crispy_forms_tags %}
 
 {% block body %}
-        <div class="row">
-            <div class="col-md-6 col-sm-12">
-                <h2>Active rooms</h2>
-                <ul class="list-group" id="chat-rooms">
-                    {% for rm in rooms %}
-                        <li class="list-group-item"><a href="{% url 'chat:room' name=rm.name %}">{{ rm.name }}</a></li>
-                    {% empty %}
-                        <p>No rooms available.</p>
-                    {% endfor %}
-                </ul>
-            </div>
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <h2>Active rooms</h2>
+            <ul class="list-group" id="chat-rooms">
+                {% for rm in rooms %}
+                    <li class="list-group-item"><a href="{% url 'chat:room' name=rm.name %}">{{ rm.name }}</a></li>
+                {% empty %}
+                    <p>No rooms available.</p>
+                {% endfor %}
+            </ul>
+        </div>
 
-            <div class="col-md-6 col-sm-12">
-                <h2>Create a room</h2>
+        <div class="col-md-6 col-sm-12">
+            <h2>Create a room</h2>
 
-                {% crispy form %}
-
-            </div>
+            {% crispy form %}
 
         </div>
+
+    </div>
 {% endblock %}

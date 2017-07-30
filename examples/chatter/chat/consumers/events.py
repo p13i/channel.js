@@ -1,9 +1,8 @@
-from datetime import datetime
 from typing import Dict, Any
 
 from channels.message import Message
 
-from ..models import Room
+from chat.models import Room
 
 
 def user_join(message: Message, **kwargs: Dict[str, Any]) -> None:

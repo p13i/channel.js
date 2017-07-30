@@ -3,8 +3,8 @@ from django.core.urlresolvers import reverse
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, redirect
 
-from .forms import RoomForm
-from .models import Room
+from chat.forms import RoomForm
+from chat.models import Room
 
 
 @login_required
