@@ -7,6 +7,10 @@ from django.db import models
 
 
 class ChatMessage(models.Model):
+    """
+    Represents a message in a Chat room.
+    """
+
     room = models.ForeignKey(
         help_text="The Room this ChatMessage belongs to.",
         to='chat.Room',
@@ -40,6 +44,7 @@ class Room(models.Model):
     """
     Represents a room containing chat users
     """
+
     # The name of the room found in the room URL
     name = models.CharField(
         help_text="The name of this Room",
