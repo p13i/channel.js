@@ -7,5 +7,13 @@ jobs:
     - stage: test examples/chatter
       script:
         - cd examples/chatter
+        # Install requirements
         - pip install -r requirements.txt
-        -  flake8 --config=.flake8/setup.ini --mypy-config=.flake8/setup.ini
+
+        # Run flake8 linter
+        - flake8 --config=.flake8/setup.ini --mypy-config=.flake8/setup.ini
+
+        # Verify Docker Compose files
+        - pip install docker-compose
+        - docker-compose --file docker-compose.yml config --quiet
+        - docker-compose --file docker-compose.dev.yml config --quiet
