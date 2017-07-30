@@ -2,6 +2,8 @@ from channels import route, route_class
 
 from chat.consumers import ChatServer, events, Demultiplexer, RoomBinding
 
+# This routes are referred to by the main routing configuration found in chatter/routing.py
+
 chat_routing = [
     route_class(ChatServer, path=r'^(?P<name>[^/]+)/stream/$'),
 ]

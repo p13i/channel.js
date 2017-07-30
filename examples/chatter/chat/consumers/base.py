@@ -10,7 +10,7 @@ class ChatServer(JsonWebsocketConsumer):
     strict_ordering = False
     slight_ordering = False
 
-    def connection_groups(self, **kwargs):
+    def connection_groups(self, **kwargs: Dict) -> str:
         """
         Called to return the list of groups to automatically add/remove
         this connection to/from.
@@ -36,7 +36,7 @@ class ChatServer(JsonWebsocketConsumer):
         # Unpack the message and send it to metronome.routing.command_routing list
         Channel('chat.receive').send(content=content)
 
-    def disconnect(self, message: Message, **kwargs: Dict[str, Any]):
+    def disconnect(self, message: Message, **kwargs: Dict) -> None:
         """
         Handles disconnecting from a room
         """

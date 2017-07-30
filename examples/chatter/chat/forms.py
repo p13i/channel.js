@@ -2,7 +2,7 @@ from crispy_forms.bootstrap import FormActions
 from crispy_forms.layout import Submit, Layout
 
 from core.forms import CrispyModelForm
-from .models import Room
+from chat.models import Room
 
 
 class RoomForm(CrispyModelForm):

@@ -36,7 +36,7 @@ class ChatMessage(models.Model):
     class Meta:
         ordering = ('-timestamp',)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return "{username} | {text}".format(username=self.sender.username, text=self.text)
 
 
@@ -58,20 +58,20 @@ class Room(models.Model):
             'text': json.dumps(data)
         })
 
-    def add_member(self, username, reply_channel_name) -> None:
+    def add_member(self, username: str, reply_channel_name: str) -> 'Member':
         """
         Adds a new member to this room
         :param kwargs: The properties of the new user
         :return: The new member
         """
-        new_member, created = Member.objects.get_or_create(username=username)  # type: (Member,bool)
+        new_member, created = Member.objects.get_or_create(username=username)
         new_member.reply_channel_name = reply_channel_name
         new_member.room = self
         new_member.save()
 
         return new_member
 
-    def remove_member(self, **kwargs: Dict[str, Any]) -> 'Member':
+    def remove_member(self, **kwargs: Dict) -> 'Member':
         """
         Removes a members from this room
         :param kwargs: The search parameters for finding the Member to remove

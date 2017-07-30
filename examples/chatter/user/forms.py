@@ -3,7 +3,7 @@ from crispy_forms.layout import Submit, Layout
 from django import forms
 from django.contrib.auth.models import User
 from django.db.models import Q
-
+from typing import List, Dict
 from core.forms import CrispyForm, CrispyModelForm
 
 
@@ -20,7 +20,7 @@ class RegistrationForm(CrispyModelForm):
         model = User
         fields = ('email', 'password')
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: List, **kwargs: Dict) -> None:
         super(RegistrationForm, self).__init__(*args, **kwargs)
         self.helper.layout = Layout(
             'email',
@@ -52,7 +52,7 @@ class LoginForm(CrispyForm):
     username = forms.CharField(max_length=150, label="Email")
     password = forms.CharField(widget=forms.PasswordInput)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: List, **kwargs: Dict) -> None:
         super(LoginForm, self).__init__(*args, **kwargs)
         self.helper.layout = Layout(
             'username',
