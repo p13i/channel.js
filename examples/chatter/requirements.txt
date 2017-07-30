@@ -33,4 +33,6 @@ txaio==2.8.0
 zope.interface==4.2.0
 djangorestframework==3.4.7
 flake8==3.4.1
+flake8-mypy==17.3.3
+mypy==0.521
 

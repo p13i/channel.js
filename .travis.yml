@@ -8,4 +8,4 @@ jobs:
       script:
         - cd examples/chatter
         - pip install -r requirements.txt
-        - flake8 --config=.flake8/setup.cfg
+        -  flake8 --config=.flake8/setup.cfg --mypy-config=.flake8/setup.cfg
